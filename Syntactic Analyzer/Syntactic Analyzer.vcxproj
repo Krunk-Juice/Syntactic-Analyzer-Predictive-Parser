@@ -154,6 +154,7 @@
     <ClInclude Include="Predictive Parser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Predictive Parser.cpp" />
     <ClCompile Include="Syntactic Analyzer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
