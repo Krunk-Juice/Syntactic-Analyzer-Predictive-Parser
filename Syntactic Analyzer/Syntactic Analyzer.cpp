@@ -57,43 +57,11 @@ int main() {
 		}
 		else {
 			int l = getRow(t);
-			//if (t == 'E')
-			//	l = 0;
-			//else if (t == 'Q')
-			//	l = 1;
-			//else if (t == 'T')
-			//	l = 2;
-			//else if (t == 'R')
-			//	l = 3;
-			//else
-			//	l = 4;
 
 			int k = getCol(c);
-			//if (isLAlpha(c))
-			//	k = 0;
-			//else if (c == '+')
-			//	k = 1;
-			//else if (c == '-')
-			//	k = 2;
-			//else if (c == '*')
-			//	k = 3;
-			//else if (c == '/')
-			//	k = 4;
-			//else if (c == '(')
-			//	k = 5;
-			//else if (c == ')')
-			//	k = 6;
-			//else if (c == '$')
-			//	k = 7;
-			//else {
-			//	cout << "String not accepted." << endl;
-			//	cout << "At character: " << c << endl;
-			//	k = 0;
-			//	l = 0;
-			//}
 
 			if (k == -1) {
-				cout << "String not accepted." << endl;
+				cout << "String NOT Accepted." << endl;
 				cout << "At character: " << c << endl;
 				break;
 			}
