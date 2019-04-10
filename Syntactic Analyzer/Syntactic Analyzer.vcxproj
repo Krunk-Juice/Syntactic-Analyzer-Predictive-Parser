@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClCompile Include="Syntactic Analyzer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Lexical Analyzer.h" />
+    <ClInclude Include="Syntactic Analyzer.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5189FCD0-207C-4CD1-B1C5-97599136360C}</ProjectGuid>
