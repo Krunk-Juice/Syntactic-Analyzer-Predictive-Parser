@@ -44,6 +44,8 @@ public:
 	string getLexeme() { return lexeme; }
 	void setToken(string t) { token = t; }
 	void setLexeme(string l) { lexeme = l; }
+	Token() { }
+	Token(string t, string l) { token = t; lexeme = l; }
 };
 
 class FSM {

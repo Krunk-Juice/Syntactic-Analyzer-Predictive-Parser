@@ -1,9 +1,4 @@
-#include <iostream>
-#include <string>
 #include <stack>
-#include <vector>
-
-using namespace std;
 
 class PDA;
 
@@ -12,47 +7,53 @@ class PredictiveTable {
 protected:
 vector<vector<string>> table = {
 
-	{ "ERROR",	"i",		"+",		"-",		"*",		"/",		"(",		")",		"$" },
+	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"(",		")",		"$" },
 	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR" },
 	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"\0",		"\0" },
 	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR"},
 	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"\0",		"\0" },
-	{ "F",		"i",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)",		"ERROR",	"ERROR" }
+	{ "F",		"id",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)",		"ERROR",	"ERROR" }
 
 	};
 };
 
 class PDA {
 private:
-	stack<char> stack_;
+	stack<string> stack_;
 	string str;
 	PredictiveTable P;
-	bool isLAlpha(char);
-	bool isUAlpha(char);
-	bool isTerminal(char);
-	int getRow(char);
-	int getCol(char);
+	//bool isLAlpha(string);
+	//bool isUAlpha(string);
+	bool isTerminal(string);
+	bool isKeyword(string);
+	int getRow(string);
+	int getCol(pair<string, string>);
 public:
-	bool parser(string);
+	bool parser(string, vector<Token>);
 };
 
-bool PDA::parser(string s) {
+bool PDA::parser(string s, vector<Token> tokens) {
 	str = s;
-	stack_.push('$');
-	stack_.push('E');
+
+	stack_.push("$");
+	stack_.push("E");
 
 	str = str + '$';
+
+	// Adds an extra element to the end of the vector to prevent out of bounds.
+	tokens.push_back(Token("END", "$"));
 
 	int i = 0;
 
 	while (!stack_.empty()) {
-		char t = stack_.top();
-		char c = str[i];
+		string t = stack_.top();
+		string c = tokens[i].getLexeme();
+		pair<string, string> tp (tokens[i].getLexeme(), tokens[i].getToken());
 
-		if (c == ' ')
-			i++;
-		else if (isTerminal(t)) {
-			if (t == c) {
+		//if (c == ' ')
+		//	i++;
+		if (isTerminal(t)) {
+			if (t == c || (t == "id" && tokens[i].getToken() == "IDENTIFIER")) {
 				cout << "Processing: " << stack_.top() << endl;
 				cout << "Lexeme: " << c << endl;
 				stack_.pop();
@@ -64,7 +65,7 @@ bool PDA::parser(string s) {
 		else {
 			int l = getRow(t);
 
-			int k = getCol(c);
+			int k = getCol(tp);
 
 			if (k == -1) {
 				cout << "String NOT Accepted." << endl;
@@ -75,11 +76,12 @@ bool PDA::parser(string s) {
 			if (P.table[l][k] != "ERROR") {
 				stack_.pop();
 				cout << t << " -> " << P.table[l][k] << endl;
-				for (int x = P.table[l][k].length() - 1; x >= 0; x--) {
-					if (P.table[l][k][x] == 'i')
-						stack_.push(c);
-					else
-						stack_.push(P.table[l][k][x]);
+				if (P.table[l][k] == "id")
+					stack_.push("id");
+				else {
+					for (int x = P.table[l][k].length() - 1; x >= 0; x--) {
+							stack_.push(string(1, P.table[l][k][x]));
+					}
 				}
 			}
 			else {
@@ -89,6 +91,9 @@ bool PDA::parser(string s) {
 		}
 	}
 
+	// Deletes unnecessary Token("END", "$") that was added at the beginning.
+	tokens.pop_back();
+
 	if (stack_.empty())
 		//cout << "String Accepted!" << endl;
 		return true;
@@ -96,56 +101,66 @@ bool PDA::parser(string s) {
 		return false;
 }
 
-bool PDA::isLAlpha(char c) {
-	if (c <= 122 && c >= 97)
+//bool PDA::isLAlpha(char c) {
+//	if (c <= 122 && c >= 97)
+//		return true;
+//	return false;
+//}
+//
+//bool PDA::isUAlpha(char c) {
+//	if (c <= 90 && c >= 65)
+//		return true;
+//	return false;
+//}
+
+bool PDA::isTerminal(string c) {
+	if (isKeyword(c) || c == "+" || c == "-" ||
+		c == "*" || c == "/" || c == "(" ||
+		c == ")" || c == "$" || c == "id")
 		return true;
 	return false;
 }
 
-bool PDA::isUAlpha(char c) {
-	if (c <= 90 && c >= 65)
-		return true;
-	return false;
-}
-
-bool PDA::isTerminal(char c) {
-	if (isLAlpha(c) || c == '+' || c == '-' ||
-		c == '*' || c == '/' || c == '(' ||
-		c == ')' || c == '$')
-		return true;
-	return false;
-}
-
-int PDA::getRow(char c) {
-	if (c == 'E')
+int PDA::getRow(string c) {
+	if (c == "E")
 		return 1;
-	else if (c == 'Q')
+	else if (c == "Q")
 		return 2;
-	else if (c == 'T')
+	else if (c == "T")
 		return 3;
-	else if (c == 'R')
+	else if (c == "R")
 		return 4;
 	else
 		return 5;
 }
 
-int PDA::getCol(char c) {
-	if (isLAlpha(c))
+int PDA::getCol(pair<string, string> c) {
+	if (c.second == "IDENTIFIER")
 		return 1;
-	else if (c == '+')
+	else if (c.first == "+")
 		return 2;
-	else if (c == '-')
+	else if (c.first == "-")
 		return 3;
-	else if (c == '*')
+	else if (c.first == "*")
 		return 4;
-	else if (c == '/')
+	else if (c.first == "/")
 		return 5;
-	else if (c == '(')
+	else if (c.first == "(")
 		return 6;
-	else if (c == ')')
+	else if (c.first == ")")
 		return 7;
-	else if (c == '$')
+	else if (c.first == "$")
 		return 8;
 	else
 		return -1;
+}
+
+bool PDA::isKeyword(string c) {
+	if (c == "int"	|| c == "float"	|| c == "bool" ||
+		c == "if"	|| c == "else"	|| c == "then" ||
+		c == "for"	|| c == "while" || c == "whileend" ||
+		c == "do"	|| c == "doend" || c == "and" ||
+		c == "or"	|| c == "function")
+		return true;
+	return false;
 }

@@ -1,7 +1,7 @@
-#include <iomanip>
-#include <fstream>
 #include "Lexical Analyzer.h"
 #include "Syntactic Analyzer.h"
+#include <iomanip>
+#include <fstream>
 
 //bool isLAlpha(char);
 //bool isUAlpha(char);
@@ -29,7 +29,7 @@
 
 int main() {
 	ifstream infile;
-	//ofstream outfile("OutputFile.txt");
+	ofstream outfile("LexerOutputFile.txt");
 	string str;
 	string fileName;
 	FSM T;
@@ -50,8 +50,17 @@ int main() {
 	while (!infile.eof()) {
 		getline(infile, str);
 
-		if (!U.parser(str))
+		tokens = T.lexer(str);
+
+		if (!U.parser(str, tokens))
 			accepted = false;
+
+		for (int i = 0; i < tokens.size(); i++) {
+			cout << "Token: " << left << setw(15) << tokens[i].getToken() <<
+				"Lexeme: " << tokens[i].getLexeme() << endl;
+			outfile << "Token: " << left << setw(15) << tokens[i].getToken() <<
+				"Lexeme: " << tokens[i].getLexeme() << endl;
+		}
 	}
 
 	if (accepted)
