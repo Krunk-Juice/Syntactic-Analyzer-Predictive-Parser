@@ -30,6 +30,7 @@ private:
 	bool isKeyword(string);
 	int getRow(string);
 	int getCol(pair<string, string>);
+	void productionPrint(string, string);
 public:
 	bool parser(string, vector<Token>);
 };
@@ -89,7 +90,8 @@ bool PDA::parser(string s, vector<Token> tokens) {
 
 			if (P.table[l][k] != "ERROR") {
 				stack_.pop();
-				cout << t << " -> " << P.table[l][k] << endl;
+				//cout << t << " -> " << P.table[l][k] << endl;
+				productionPrint(t, P.table[l][k]);
 				if (P.table[l][k] == "id")
 					stack_.push("id");
 				else {
@@ -177,4 +179,39 @@ bool PDA::isKeyword(string c) {
 		c == "or"	|| c == "function")
 		return true;
 	return false;
+}
+
+void PDA::productionPrint(string t, string s) {
+	if (s == "TQ")
+		cout << "<Expression> -> <Term> <Expression Prime>" << endl;
+
+	else if (s == "+TQ")
+		cout << "<Expression Prime> -> + <Term> <Expression Prime>" << endl;
+
+	else if (s == "-TQ")
+		cout << "<Expression Prime> -> - <Term> <Expression Prime>" << endl;
+
+	else if (s == "FR")
+		cout << "<Term> -> <Factor> <Term Prime>" << endl;
+
+	else if (s == "*FR")
+		cout << "<Term Prime> -> * <Factor> <Term Prime>" << endl;
+
+	else if (s == "/FR")
+		cout << "<Term Prime> -> / <Factor> <Term Prime>" << endl;
+
+	else if (s == "id")
+		cout << "<Factor> -> <Identifier>" << endl;
+
+	else if (s == "(E)")
+		cout << "<Factor> -> ( <Expression> )" << endl;
+
+	else if (t == "Q" && s == "\0")
+		cout << "<Expression Prime> -> <Epsilon>" << endl;
+
+	else if (t == "R" && s == "\0")
+		cout << "<Term Prime> -> <Epsilon>" << endl;
+
+	else
+		cout << "ERROR" << endl;
 }
