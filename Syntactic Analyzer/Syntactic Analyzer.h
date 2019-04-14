@@ -1,4 +1,6 @@
 #include <stack>
+#include <iomanip>
+#include <fstream>
 
 class PDA;
 
@@ -33,6 +35,7 @@ public:
 };
 
 bool PDA::parser(string s, vector<Token> tokens) {
+	bool pcheck = true;
 	str = s;
 
 	stack_.push("$");
@@ -50,14 +53,25 @@ bool PDA::parser(string s, vector<Token> tokens) {
 		string c = tokens[i].getLexeme();
 		pair<string, string> tp (tokens[i].getLexeme(), tokens[i].getToken());
 
+		// Print Token:------ & Lexeme:------
+		if (pcheck) {
+			cout << "Token: " << left << setw(15) << tokens[i].getToken() <<
+				"Lexeme: " << tokens[i].getLexeme() << endl;
+			//outfile << "Token: " << left << setw(15) << tokens[i].getToken() <<
+			//	"Lexeme: " << tokens[i].getLexeme() << endl;
+
+			pcheck = false;
+		}
+
 		//if (c == ' ')
 		//	i++;
 		if (isTerminal(t)) {
 			if (t == c || (t == "id" && tokens[i].getToken() == "IDENTIFIER")) {
-				cout << "Processing: " << stack_.top() << endl;
-				cout << "Lexeme: " << c << endl;
+				//cout << "Processing: " << stack_.top() << endl;
+				//cout << "Lexeme: " << c << endl;
 				stack_.pop();
 				i++;
+				pcheck = true;
 			}
 			else
 				cout << "Top of stack " << t << " != character input " << c << endl;
