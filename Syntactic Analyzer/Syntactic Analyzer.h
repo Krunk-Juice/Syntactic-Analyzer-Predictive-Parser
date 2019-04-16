@@ -9,12 +9,14 @@ class PredictiveTable {
 protected:
 vector<vector<string>> table = {
 
-	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"(",		")",		"$" },
-	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"\0",		"\0" },
-	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"\0",		"\0" },
-	{ "F",		"id",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)",		"ERROR",	"ERROR" }
+	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		"$" },
+	{ "S",		"idA",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"=E",		"ERROR",	"ERROR",	"\0" },
+	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"\0" },
+	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"\0" },
+	{ "F",		"id",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)",		"ERROR",	"ERROR" }
 
 	};
 };
@@ -24,13 +26,11 @@ private:
 	stack<string> stack_;
 	string str;
 	PredictiveTable P;
-	//bool isLAlpha(string);
-	//bool isUAlpha(string);
 	bool isTerminal(string);
-	bool isKeyword(string);
 	int getRow(string);
 	int getCol(pair<string, string>);
 	void productionPrint(string, string);
+	bool isKeyword(string);
 public:
 	bool parser(string, vector<Token>);
 };
@@ -40,7 +40,8 @@ bool PDA::parser(string s, vector<Token> tokens) {
 	str = s;
 
 	stack_.push("$");
-	stack_.push("E");
+	//stack_.push("E");
+	stack_.push("S");
 
 	str = str + '$';
 
@@ -94,6 +95,10 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				productionPrint(t, P.table[l][k]);
 				if (P.table[l][k] == "id")
 					stack_.push("id");
+				else if (P.table[l][k] == "idA") {
+					stack_.push("A");
+					stack_.push("id");
+				}
 				else {
 					for (int x = P.table[l][k].length() - 1; x >= 0; x--) {
 							stack_.push(string(1, P.table[l][k][x]));
@@ -117,37 +122,29 @@ bool PDA::parser(string s, vector<Token> tokens) {
 		return false;
 }
 
-//bool PDA::isLAlpha(char c) {
-//	if (c <= 122 && c >= 97)
-//		return true;
-//	return false;
-//}
-//
-//bool PDA::isUAlpha(char c) {
-//	if (c <= 90 && c >= 65)
-//		return true;
-//	return false;
-//}
-
 bool PDA::isTerminal(string c) {
-	if (isKeyword(c) || c == "+" || c == "-" ||
+	if (c == "id" || c == "+" || c == "-" ||
 		c == "*" || c == "/" || c == "(" ||
-		c == ")" || c == "$" || c == "id")
+		c == ")" || c == "$" || c == "=")
 		return true;
 	return false;
 }
 
 int PDA::getRow(string c) {
-	if (c == "E")
+	if (c == "S")
 		return 1;
-	else if (c == "Q")
+	else if (c == "A")
 		return 2;
-	else if (c == "T")
+	else if (c == "E")
 		return 3;
-	else if (c == "R")
+	else if (c == "Q")
 		return 4;
-	else
+	else if (c == "T")
 		return 5;
+	else if (c == "R")
+		return 6;
+	else
+		return 7;
 }
 
 int PDA::getCol(pair<string, string> c) {
@@ -161,28 +158,26 @@ int PDA::getCol(pair<string, string> c) {
 		return 4;
 	else if (c.first == "/")
 		return 5;
-	else if (c.first == "(")
+	else if (c.first == "=")
 		return 6;
-	else if (c.first == ")")
+	else if (c.first == "(")
 		return 7;
-	else if (c.first == "$")
+	else if (c.first == ")")
 		return 8;
+	else if (c.first == "$")
+		return 9;
 	else
 		return -1;
 }
 
-bool PDA::isKeyword(string c) {
-	if (c == "int"	|| c == "float"	|| c == "bool" ||
-		c == "if"	|| c == "else"	|| c == "then" ||
-		c == "for"	|| c == "while" || c == "whileend" ||
-		c == "do"	|| c == "doend" || c == "and" ||
-		c == "or"	|| c == "function")
-		return true;
-	return false;
-}
-
 void PDA::productionPrint(string t, string s) {
-	if (s == "TQ")
+	if (t == "S" && s == "idA")
+		cout << "<Statement> -> <Identifier> <Assign>" << endl;
+
+	else if (t == "A" && s == "=E")
+		cout << "<Assign> -> = <Expression>" << endl;
+
+	else if (s == "TQ")
 		cout << "<Expression> -> <Term> <Expression Prime>" << endl;
 
 	else if (s == "+TQ")
@@ -214,4 +209,14 @@ void PDA::productionPrint(string t, string s) {
 
 	else
 		cout << "ERROR" << endl;
+}
+
+bool PDA::isKeyword(string c) {
+	if (c == "int" || c == "float" || c == "bool" ||
+		c == "if" || c == "else" || c == "then" ||
+		c == "for" || c == "while" || c == "whileend" ||
+		c == "do" || c == "doend" || c == "and" ||
+		c == "or" || c == "function")
+		return true;
+	return false;
 }
