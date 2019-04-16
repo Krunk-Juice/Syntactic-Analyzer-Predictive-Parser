@@ -208,7 +208,7 @@ void PDA::productionPrint(string t, string s) {
 		cout << "<Term Prime> -> <Epsilon>" << endl;
 
 	else
-		cout << "ERROR" << endl;
+		cout << s << endl;
 }
 
 bool PDA::isKeyword(string c) {
