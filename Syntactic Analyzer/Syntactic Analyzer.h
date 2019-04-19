@@ -9,8 +9,7 @@ class PredictiveTable {
 protected:
 
 	/* Production Rules:
-		S -> idA
-		A -> = E
+		S -> id=E
 		E -> TQ
 		Q -> +TQ | -TQ | \0
 		T -> FR
@@ -21,8 +20,8 @@ protected:
 vector<vector<string>> table = {
 
 	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		"$" },
-	{ "S",		"idA",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"=E",		"ERROR",	"ERROR",	"\0" },
+	{ "S",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
 	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR" },
 	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"\0" },
 	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR"},
@@ -38,6 +37,7 @@ private:
 	string str;
 	PredictiveTable P;
 	bool isTerminal(string);
+	bool productionS(string);
 	int getRow(string);
 	int getCol(pair<string, string>);
 	void productionPrint(string, string);
@@ -86,8 +86,10 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				i++;
 				pcheck = true;
 			}
-			else
+			else {
 				cout << "Top of stack " << t << " != character input " << c << endl;
+				break;
+			}
 		}
 		else {
 			int l = getRow(t);
@@ -106,8 +108,9 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				productionPrint(t, P.table[l][k]);
 				if (P.table[l][k] == "id")
 					stack_.push("id");
-				else if (P.table[l][k] == "idA") {
-					stack_.push("A");
+				else if (P.table[l][k] == "id=E") {
+					stack_.push("E");
+					stack_.push("=");
 					stack_.push("id");
 				}
 				else {
@@ -182,11 +185,10 @@ int PDA::getCol(pair<string, string> c) {
 }
 
 void PDA::productionPrint(string t, string s) {
-	if (t == "S" && s == "idA")
-		cout << "<Statement> -> <Identifier> <Assign>" << endl;
-
-	else if (t == "A" && s == "=E")
-		cout << "<Assign> -> = <Expression>" << endl;
+	if (t == "S" && s == "id=E") {
+		cout << "<Statement> -> <Assign>" << endl;
+		cout << "<Assign> -> <Identifier> = <Expression>" << endl;
+	}
 
 	else if (s == "TQ")
 		cout << "<Expression> -> <Term> <Expression Prime>" << endl;
