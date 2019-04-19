@@ -7,6 +7,17 @@ class PDA;
 class PredictiveTable {
 	friend PDA;
 protected:
+
+	/* Production Rules:
+		S -> idA
+		A -> = E
+		E -> TQ
+		Q -> +TQ | -TQ | \0
+		T -> FR
+		R -> *FR | /FR | \0
+		F -> id | (E)
+	*/
+
 vector<vector<string>> table = {
 
 	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		"$" },
