@@ -43,7 +43,8 @@ private:
 	int getRow(string);
 	int getCol(pair<string, string>);
 	void productionPrint(string, string);
-	bool isKeyword(string);
+	bool isOperator(string currChar);
+	bool isSeparator(string currChar);
 public:
 	bool parser(string, vector<Token>);
 };
@@ -145,10 +146,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 }
 
 bool PDA::isTerminal(string c) {
-	if (c == "id" || c == "+" || c == "-" ||
-		c == "*" || c == "/" || c == "(" ||
-		c == ")" || c == "$" || c == "=" ||
-		c == ";")
+	if (c == "id" || isSeparator(c) || isOperator(c))
 		return true;
 	return false;
 }
@@ -266,12 +264,17 @@ void PDA::productionPrint(string t, string s) {
 		cout << "No format found for " << s << " in productionPrint." << endl;
 }
 
-bool PDA::isKeyword(string c) {
-	if (c == "int" || c == "float" || c == "bool" ||
-		c == "if" || c == "else" || c == "then" ||
-		c == "for" || c == "while" || c == "whileend" ||
-		c == "do" || c == "doend" || c == "and" ||
-		c == "or" || c == "function")
+bool PDA::isOperator(string currChar) {
+	if (currChar == "+" || currChar == "-" || currChar == "*" || currChar == "/" ||
+		currChar == ">" || currChar == "<" || currChar == "=" || currChar == "%")
+		return true;
+	return false;
+}
+
+bool PDA::isSeparator(string currChar) {
+	if (currChar == "(" || currChar == ")" || currChar == "[" || currChar == "]" ||
+		currChar == "{" || currChar == "}" || currChar == "." || currChar == "," ||
+		currChar == ":" || currChar == ";" || currChar == "\'")
 		return true;
 	return false;
 }
