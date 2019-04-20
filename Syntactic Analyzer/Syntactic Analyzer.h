@@ -19,14 +19,15 @@ protected:
 
 vector<vector<string>> table = {
 
-	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		"$" },
-	{ "S",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"\0" },
-	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"\0" },
-	{ "F",		"id",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)",		"ERROR",	"ERROR" }
+	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"$" },
+	{ "S",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"\0" },
+	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"\0" },
+	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR" },
+	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";",		"\0" }
 
 	};
 };
@@ -80,7 +81,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 		}
 
 		//if (c == ' ')
-		//	i++;
+		//	_index++;
 		if (isTerminal(t)) {
 			if (t == c || (t == "id" && tokens[_index].getToken() == "IDENTIFIER")) {
 				//cout << "Processing: " << stack_.top() << endl;
@@ -111,9 +112,13 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				productionPrint(t, P.table[l][k]);
 				if (P.table[l][k] == "id")
 					stack_.push("id");
-				else if (P.table[l][k] == "id=E") {
-					stack_.push("E");
-					stack_.push("=");
+				//else if (P.table[l][k] == "id=E") {
+				//	stack_.push("E");
+				//	stack_.push("=");
+				//	stack_.push("id");
+				//}
+				else if (P.table[l][k] == "idZ") {
+					stack_.push("Z");
 					stack_.push("id");
 				}
 				else {
@@ -142,7 +147,8 @@ bool PDA::parser(string s, vector<Token> tokens) {
 bool PDA::isTerminal(string c) {
 	if (c == "id" || c == "+" || c == "-" ||
 		c == "*" || c == "/" || c == "(" ||
-		c == ")" || c == "$" || c == "=")
+		c == ")" || c == "$" || c == "=" ||
+		c == ";")
 		return true;
 	return false;
 }
@@ -177,8 +183,10 @@ int PDA::getRow(string c) {
 		return 5;
 	else if (c == "R")
 		return 6;
-	else
+	else if (c == "F")
 		return 7;
+	else
+		return 8;
 }
 
 int PDA::getCol(pair<string, string> c) {
@@ -198,8 +206,10 @@ int PDA::getCol(pair<string, string> c) {
 		return 7;
 	else if (c.first == ")")
 		return 8;
-	else if (c.first == "$")
+	else if (c.first == ";")
 		return 9;
+	else if (c.first == "$")
+		return 10;
 	else
 		return -1;
 }
@@ -240,8 +250,20 @@ void PDA::productionPrint(string t, string s) {
 	else if (t == "R" && s == "\0")
 		cout << "<Term Prime> -> <Epsilon>" << endl;
 
+	else if (s == "idZ")
+		cout << "<Factor> -> <Identifier> <Factor Prime>" << endl;
+
+	else if (s == "(E)Z")
+		cout << "<Factor> -> ( <Expression> ) <Factor Prime>" << endl;
+
+	else if (s == ";")
+		cout << "<Factor Prime> -> <Delimiter>" << endl;
+
+	else if (t == "Z" && s == "\0")
+		cout << "<Factor Prime> -> <Epsilon>" << endl;
+
 	else
-		cout << s << endl;
+		cout << "No format found for " << s << " in productionPrint." << endl;
 }
 
 bool PDA::isKeyword(string c) {

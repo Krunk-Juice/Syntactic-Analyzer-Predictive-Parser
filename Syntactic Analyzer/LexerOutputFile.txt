@@ -13,3 +13,4 @@ Token: IDENTIFIER     Lexeme: d
 Token: SEPARATOR      Lexeme: )
 Token: OPERATOR       Lexeme: /
 Token: IDENTIFIER     Lexeme: f
+Token: SEPARATOR      Lexeme: ;
