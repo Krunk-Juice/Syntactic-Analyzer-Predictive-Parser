@@ -3,7 +3,7 @@
 
 int main() {
 	ifstream infile;
-	ofstream outfile("LexerOutputFile.txt");
+	//ofstream outfile("LexerOutputFile.txt");
 	string str;
 	string fileName;
 	FSM T;
@@ -32,8 +32,8 @@ int main() {
 		for (int i = 0; i < tokens.size(); i++) {
 			cout << "Token: " << left << setw(15) << tokens[i].getToken() <<
 				"Lexeme: " << tokens[i].getLexeme() << endl;
-			outfile << "Token: " << left << setw(15) << tokens[i].getToken() <<
-				"Lexeme: " << tokens[i].getLexeme() << endl;
+			//outfile << "Token: " << left << setw(15) << tokens[i].getToken() <<
+			//	"Lexeme: " << tokens[i].getLexeme() << endl;
 		}
 	}
 
