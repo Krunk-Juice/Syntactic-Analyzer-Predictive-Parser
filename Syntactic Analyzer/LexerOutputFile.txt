@@ -1,3 +1,5 @@
+Token: IDENTIFIER     Lexeme: result
+Token: OPERATOR       Lexeme: =
 Token: SEPARATOR      Lexeme: (
 Token: IDENTIFIER     Lexeme: a
 Token: OPERATOR       Lexeme: -

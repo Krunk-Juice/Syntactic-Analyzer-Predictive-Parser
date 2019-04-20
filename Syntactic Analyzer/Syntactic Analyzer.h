@@ -35,9 +35,10 @@ class PDA {
 private:
 	stack<string> stack_;
 	string str;
+	int _index = 0;
 	PredictiveTable P;
 	bool isTerminal(string);
-	bool productionS(string);
+	void productionS(vector<Token>);
 	int getRow(string);
 	int getCol(pair<string, string>);
 	void productionPrint(string, string);
@@ -51,27 +52,29 @@ bool PDA::parser(string s, vector<Token> tokens) {
 	str = s;
 
 	stack_.push("$");
-	//stack_.push("E");
-	stack_.push("S");
+
+	stack_.push("E");
+
+	//stack_.push("S");
 
 	str = str + '$';
 
 	// Adds an extra element to the end of the vector to prevent out of bounds.
 	tokens.push_back(Token("END", "$"));
 
-	int i = 0;
+	productionS(tokens);
 
 	while (!stack_.empty()) {
 		string t = stack_.top();
-		string c = tokens[i].getLexeme();
-		pair<string, string> tp (tokens[i].getLexeme(), tokens[i].getToken());
+		string c = tokens[_index].getLexeme();
+		pair<string, string> tp (tokens[_index].getLexeme(), tokens[_index].getToken());
 
 		// Print Token:------ & Lexeme:------
 		if (pcheck) {
-			cout << "Token: " << left << setw(15) << tokens[i].getToken() <<
-				"Lexeme: " << tokens[i].getLexeme() << endl;
+			cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+				"Lexeme: " << tokens[_index].getLexeme() << endl;
 			//outfile << "Token: " << left << setw(15) << tokens[i].getToken() <<
-			//	"Lexeme: " << tokens[i].getLexeme() << endl;
+			//	"Lexeme: " << tokens[_index].getLexeme() << endl;
 
 			pcheck = false;
 		}
@@ -79,11 +82,11 @@ bool PDA::parser(string s, vector<Token> tokens) {
 		//if (c == ' ')
 		//	i++;
 		if (isTerminal(t)) {
-			if (t == c || (t == "id" && tokens[i].getToken() == "IDENTIFIER")) {
+			if (t == c || (t == "id" && tokens[_index].getToken() == "IDENTIFIER")) {
 				//cout << "Processing: " << stack_.top() << endl;
 				//cout << "Lexeme: " << c << endl;
 				stack_.pop();
-				i++;
+				_index++;
 				pcheck = true;
 			}
 			else {
@@ -121,7 +124,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 			}
 			else {
 				cout << "You read an ERROR cell." << endl;
-				i++;
+				_index++;
 			}
 		}
 	}
@@ -142,6 +145,23 @@ bool PDA::isTerminal(string c) {
 		c == ")" || c == "$" || c == "=")
 		return true;
 	return false;
+}
+
+void PDA::productionS(vector<Token> tokens) {
+	if (tokens[_index].getToken() == "$")
+		return;
+	else if (tokens[_index].getToken() == "IDENTIFIER" && tokens[_index + 1].getLexeme() == "=") {
+		cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+			"Lexeme: " << tokens[_index].getLexeme() << endl;
+		productionPrint("S", "id=E");
+		_index++;
+		cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+			"Lexeme: " << tokens[_index].getLexeme() << endl;
+		_index++;
+		return;
+	}
+	else
+		return;
 }
 
 int PDA::getRow(string c) {
