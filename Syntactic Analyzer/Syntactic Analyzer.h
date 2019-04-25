@@ -58,16 +58,16 @@ bool PDA::parser(string s, vector<Token> tokens) {
 
 	stack_.push("$");
 
-	stack_.push("E");
+	//stack_.push("E");
 
-	//stack_.push("S");
+	stack_.push("S");
 
 	str = str + '$';
 
 	// Adds an extra element to the end of the vector to prevent out of bounds.
 	tokens.push_back(Token("END", "$"));
 
-	productionS(tokens);
+	//productionS(tokens);
 
 	while (!stack_.empty()) {
 		string t = stack_.top();
@@ -116,15 +116,19 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				productionPrint(t, P.table[l][k]);
 				if (P.table[l][k] == "id")
 					stack_.push("id");
-				//else if (P.table[l][k] == "id=E") {
-				//	stack_.push("E");
-				//	stack_.push("=");
-				//	stack_.push("id");
-				//}
+
+				// <Statement> -> <Assign>
+				else if (P.table[l][k] == "id=E") {
+					stack_.push("E");
+					stack_.push("=");
+					stack_.push("id");
+				}
+ 
 				else if (P.table[l][k] == "idZ") {
 					stack_.push("Z");
 					stack_.push("id");
 				}
+
 				else {
 					for (int x = P.table[l][k].length() - 1; x >= 0; x--) {
 							stack_.push(string(1, P.table[l][k][x]));
@@ -231,58 +235,72 @@ void PDA::productionPrint(string t, string s) {
 		cout << "<Expression> -> <Term> <Expression Prime>" << endl;
 		outfile << "<Expression> -> <Term> <Expression Prime>" << endl;
 	}
+
 	else if (s == "+TQ") {
 		cout << "<Expression Prime> -> + <Term> <Expression Prime>" << endl;
 		outfile << "<Expression Prime> -> + <Term> <Expression Prime>" << endl;
 	}
+
 	else if (s == "-TQ") {
 		cout << "<Expression Prime> -> - <Term> <Expression Prime>" << endl;
 		outfile << "<Expression Prime> -> - <Term> <Expression Prime>" << endl;
 	}
+
 	else if (s == "FR") {
 		cout << "<Term> -> <Factor> <Term Prime>" << endl;
 		outfile << "<Term> -> <Factor> <Term Prime>" << endl;
 	}
+
 	else if (s == "*FR") {
 		cout << "<Term Prime> -> * <Factor> <Term Prime>" << endl;
 		outfile << "<Term Prime> -> * <Factor> <Term Prime>" << endl;
 	}
+
 	else if (s == "/FR") {
 		cout << "<Term Prime> -> / <Factor> <Term Prime>" << endl;
 		outfile << "<Term Prime> -> / <Factor> <Term Prime>" << endl;
 	}
+
 	else if (s == "id") {
 		cout << "<Factor> -> <Identifier>" << endl;
 		outfile << "<Factor> -> <Identifier>" << endl;
 	}
+
 	else if (s == "(E)") {
 		cout << "<Factor> -> ( <Expression> )" << endl;
 		outfile << "<Factor> -> ( <Expression> )" << endl;
 	}
+
 	else if (t == "Q" && s == "\0") {
 		cout << "<Expression Prime> -> <Epsilon>" << endl;
 		outfile << "<Expression Prime> -> <Epsilon>" << endl;
 	}
+
 	else if (t == "R" && s == "\0") {
 		cout << "<Term Prime> -> <Epsilon>" << endl;
 		outfile << "<Term Prime> -> <Epsilon>" << endl;
 	}
+
 	else if (s == "idZ") {
 		cout << "<Factor> -> <Identifier> <Factor Prime>" << endl;
 		outfile << "<Factor> -> <Identifier> <Factor Prime>" << endl;
 	}
+
 	else if (s == "(E)Z") {
 		cout << "<Factor> -> ( <Expression> ) <Factor Prime>" << endl;
 		outfile << "<Factor> -> ( <Expression> ) <Factor Prime>" << endl;
 	}
+
 	else if (s == ";") {
 		cout << "<Factor Prime> -> <Delimiter>" << endl;
 		outfile << "<Factor Prime> -> <Delimiter>" << endl;
 	}
+
 	else if (t == "Z" && s == "\0") {
 		cout << "<Factor Prime> -> <Epsilon>" << endl;
 		outfile << "<Factor Prime> -> <Epsilon>" << endl;
 	}
+
 	else {
 		//cout << "No format found for " << s << " in productionPrint." << endl;
 		//outfile << "No format found for " << s << " in productionPrint." << endl;
