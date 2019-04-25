@@ -14,7 +14,8 @@ protected:
 		Q -> +TQ | -TQ | \0
 		T -> FR
 		R -> *FR | /FR | \0
-		F -> id | (E)
+		F -> idZ | (E)Z
+		Z -> ; | \0
 	*/
 
 vector<vector<string>> table = {
