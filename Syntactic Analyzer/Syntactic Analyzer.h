@@ -56,19 +56,19 @@ bool PDA::parser(string s, vector<Token> tokens) {
 
 	bool pcheck = true;
 	str = s;
+	str = str + '$';
 
 	stack_.push("$");
-
-	//stack_.push("E");
-
-	stack_.push("S");
-
-	str = str + '$';
 
 	// Adds an extra element to the end of the vector to prevent out of bounds.
 	tokens.push_back(Token("END", "$"));
 
-	//productionS(tokens);
+	/* If use S -> id=E. Use stack_.push("E") & productionS(vector<Token>). */
+	stack_.push("E");
+	productionS(tokens);
+
+	/* If use S -> idA & A -> =E. Use stack_.push("S").*/
+	//stack_.push("S");
 
 	while (!stack_.empty()) {
 		string t = stack_.top();
@@ -85,8 +85,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 			pcheck = false;
 		}
 
-		//if (c == ' ')
-		//	_index++;
+		// Is the top of stack a terminal? Yes.
 		if (isTerminal(t)) {
 			if (t == c || (t == "id" && tokens[_index].getToken() == "IDENTIFIER")) {
 				//cout << "Processing: " << stack_.top() << endl;
@@ -100,6 +99,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				break;
 			}
 		}
+		// Is the top of stack a terminal? No. Get production rule.
 		else {
 			int l = getRow(t);
 
@@ -111,31 +111,30 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				break;
 			}
 
+			/* Was an "ERROR" cell read? No. */
 			if (P.table[l][k] != "ERROR") {
 				stack_.pop();
 				//cout << t << " -> " << P.table[l][k] << endl;
 				productionPrint(t, P.table[l][k]);
+
+				/* Pushes strings in the table in reverse onto the stack. */
 				if (P.table[l][k] == "id")
 					stack_.push("id");
-
-				// <Statement> -> <Assign>
-				else if (P.table[l][k] == "id=E") {
-					stack_.push("E");
-					stack_.push("=");
+				else if (P.table[l][k] == "idA") {
+					stack_.push("A");
 					stack_.push("id");
 				}
- 
 				else if (P.table[l][k] == "idZ") {
 					stack_.push("Z");
 					stack_.push("id");
 				}
-
 				else {
 					for (int x = P.table[l][k].length() - 1; x >= 0; x--) {
 							stack_.push(string(1, P.table[l][k][x]));
 					}
 				}
 			}
+			/* Was an "ERROR" cell read? Yes. */
 			else {
 				cout << "You read an ERROR cell." << endl;
 				_index++;
@@ -153,12 +152,14 @@ bool PDA::parser(string s, vector<Token> tokens) {
 		return false;
 }
 
+/* Check if string is terminal. */
 bool PDA::isTerminal(string c) {
 	if (c == "id" || isSeparator(c) || isOperator(c))
 		return true;
 	return false;
 }
 
+/* Production Rule S */
 void PDA::productionS(vector<Token> tokens) {
 	if (tokens[_index].getToken() == "$")
 		return;
@@ -167,19 +168,24 @@ void PDA::productionS(vector<Token> tokens) {
 			"Lexeme: " << tokens[_index].getLexeme() << endl;
 		outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
 			"Lexeme: " << tokens[_index].getLexeme() << endl;
+
 		productionPrint("S", "id=E");
 		_index++;
+
 		cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
 			"Lexeme: " << tokens[_index].getLexeme() << endl;
 		outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
 			"Lexeme: " << tokens[_index].getLexeme() << endl;
+
 		_index++;
+
 		return;
 	}
 	else
 		return;
 }
 
+/* Get table row. */
 int PDA::getRow(string c) {
 	if (c == "S")
 		return 1;
@@ -199,6 +205,7 @@ int PDA::getRow(string c) {
 		return 8;
 }
 
+/* Get table column. */
 int PDA::getCol(pair<string, string> c) {
 	if (c.second == "IDENTIFIER")
 		return 1;
@@ -224,6 +231,7 @@ int PDA::getCol(pair<string, string> c) {
 		return -1;
 }
 
+/* Print production rules. */
 void PDA::productionPrint(string t, string s) {
 	if (t == "S" && s == "id=E") {
 		cout << "<Statement> -> <Assign>" << endl;
