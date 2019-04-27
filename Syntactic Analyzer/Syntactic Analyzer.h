@@ -71,8 +71,12 @@ bool PDA::parser(string s, vector<Token> tokens) {
 	//stack_.push("S");
 
 	while (!stack_.empty()) {
+		/* Top of Stack */
 		string t = stack_.top();
+
+		/* Current token being evaluated by the parser. */
 		string c = tokens[_index].getLexeme();
+
 		pair<string, string> tp (tokens[_index].getLexeme(), tokens[_index].getToken());
 
 		// Print Token:------ & Lexeme:------
