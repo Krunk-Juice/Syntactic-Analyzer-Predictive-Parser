@@ -4,7 +4,7 @@
 int main() {
 	ifstream infile;
 	//ofstream outfile("LexerOutputFile.txt");
-	string str;
+	//string str;
 	string fileName;
 	FSM T;
 	PDA U;
@@ -21,21 +21,30 @@ int main() {
 		return 0;
 	}
 
-	while (!infile.eof()) {
-		getline(infile, str);
+	//while (!infile.eof()) {
+	//	getline(infile, str);
 
-		tokens = T.lexer(str);
+	//	tokens = T.lexer(str);
 
-		if (!U.parser(str, tokens))
-			accepted = false;
+	//	if (!U.parser(str, tokens))
+	//		accepted = false;
 
-		//for (int i = 0; i < tokens.size(); i++) {
-		//	cout << "Token: " << left << setw(15) << tokens[i].getToken() <<
-		//		"Lexeme: " << tokens[i].getLexeme() << endl;
-		//	//outfile << "Token: " << left << setw(15) << tokens[i].getToken() <<
-		//	//	"Lexeme: " << tokens[i].getLexeme() << endl;
-		//}
-	}
+	//	//for (int i = 0; i < tokens.size(); i++) {
+	//	//	cout << "Token: " << left << setw(15) << tokens[i].getToken() <<
+	//	//		"Lexeme: " << tokens[i].getLexeme() << endl;
+	//	//	//outfile << "Token: " << left << setw(15) << tokens[i].getToken() <<
+	//	//	//	"Lexeme: " << tokens[i].getLexeme() << endl;
+	//	//}
+	//}
+
+	/* Read file contents as one string. */
+	string str((istreambuf_iterator<char>(infile)),
+				(istreambuf_iterator<char>()));
+
+	tokens = T.lexer(str);
+
+	if (!U.parser(str, tokens))
+		accepted = false;
 
 	if (accepted)
 		cout << "String Accepted." << endl;

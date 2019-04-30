@@ -19,19 +19,19 @@ protected:
 	*/
 
 vector<vector<string>> table = {
-			/*	1			2			3			4			5			6			7			8			9			10				11	*/
-	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"$" },
-	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR" },
-	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
-	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}",	"ERROR",	"ERROR",	"ERROR" },
-	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
-	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR" },
-	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"ERROR",	"ERROR",	"\0" },
-	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"ERROR",	"ERROR",	"\0" },
-	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
-	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";",		"ERROR",		"ERROR",	"ERROR",	"\0" }
+			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15	*/
+	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"$" },
+	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR" },
+	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"\0" },
+	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"\0" },
+	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";",		"ERROR",		"\0",		"\0",		"ERROR",	"ERROR",	"\0" }
 
 	};
 };
@@ -50,6 +50,9 @@ private:
 	void productionPrint(string, string);
 	bool isOperator(string currChar);
 	bool isSeparator(string currChar);
+	bool isKeyword(string currChar);
+	bool isDigit(string currChar);
+	bool isSpace(string currChar);
 public:
 	bool parser(string, vector<Token>);
 };
@@ -76,7 +79,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 	while (!stack_.empty()) {
 
 		/* Top of Stack */
-		string t = stack_.top();
+ 		string t = stack_.top();
 
 		/* Current token being evaluated by the parser. */
 		string c = tokens[_index].getLexeme();
@@ -93,14 +96,14 @@ bool PDA::parser(string s, vector<Token> tokens) {
 			pcheck = false;
 		}
 
-		if (t == "S") {
-			productionS(tokens, stack_);
-		}
+		//if (t == "S") {
+		//	productionS(tokens, stack_);
+		//}
 		// Is the top of stack a terminal? Yes.
 		else if (isTerminal(t)) {
 			if (t == c || (t == "id" && tokens[_index].getToken() == "IDENTIFIER")) {
-				//cout << "Processing: " << stack_.top() << endl;
-				//cout << "Lexeme: " << c << endl;
+				cout << "Processing: " << stack_.top() << endl;
+				cout << "Lexeme: " << c << endl;
 				stack_.pop();
 				_index++;
 				pcheck = true;
@@ -125,15 +128,30 @@ bool PDA::parser(string s, vector<Token> tokens) {
 			/* Was an "ERROR" cell read? No. */
 			if (P.table[l][k] != "ERROR") {
 				stack_.pop();
-				//cout << t << " -> " << P.table[l][k] << endl;
-				productionPrint(t, P.table[l][k]);
+				cout << t << " -> " << P.table[l][k] << endl;
+
+				//productionPrint(t, P.table[l][k]);
 
 				/* Pushes strings in the table in reverse onto the stack. */
 				if (P.table[l][k] == "id")
 					stack_.push("id");
-				else if (P.table[l][k] == "idA") {
-					stack_.push("A");
+				//else if (P.table[l][k] == "idA") {
+				//	stack_.push("A");
+				//	stack_.push("id");
+				//}
+				else if (P.table[l][k] == "id=E") {
+					stack_.push("E");
+					stack_.push("=");
 					stack_.push("id");
+				}
+				else if (P.table[l][k] == "while(C){S}") {
+					stack_.push("}");
+					stack_.push("S");
+					stack_.push("{");
+					stack_.push(")");
+					stack_.push("C");
+					stack_.push("(");
+					stack_.push("while");
 				}
 				else if (P.table[l][k] == "idZ") {
 					stack_.push("Z");
@@ -165,7 +183,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 
 /* Check if string is terminal. */
 bool PDA::isTerminal(string c) {
-	if (c == "id" || isSeparator(c) || isOperator(c))
+	if (c == "id" || isSeparator(c) || isOperator(c) || isKeyword(c) || isDigit(c) || isSpace(c))
 		return true;
 	return false;
 }
@@ -214,18 +232,24 @@ int PDA::getRow(string c) {
 		return 1;
 	else if (c == "A")
 		return 2;
-	else if (c == "E")
+	else if (c == "W")
 		return 3;
-	else if (c == "Q")
+	else if (c == "C")
 		return 4;
-	else if (c == "T")
+	else if (c == "P")
 		return 5;
-	else if (c == "R")
+	else if (c == "E")
 		return 6;
-	else if (c == "F")
+	else if (c == "Q")
 		return 7;
-	else
+	else if (c == "T")
 		return 8;
+	else if (c == "R")
+		return 9;
+	else if (c == "F")
+		return 10;
+	else
+		return 11;
 }
 
 /* Get table column. */
@@ -248,8 +272,18 @@ int PDA::getCol(pair<string, string> c) {
 		return 8;
 	else if (c.first == ";")
 		return 9;
-	else if (c.first == "$")
+	else if (c.first == "while")
 		return 10;
+	else if (c.first == "<")
+		return 11;
+	else if (c.first == ">")
+		return 12;
+	else if (c.first == "{")
+		return 13;
+	else if (c.first == "}")
+		return 14;
+	else if (c.first == "$")
+		return 15;
 	else
 		return -1;
 }
@@ -350,6 +384,39 @@ bool PDA::isSeparator(string currChar) {
 	if (currChar == "(" || currChar == ")" || currChar == "[" || currChar == "]" ||
 		currChar == "{" || currChar == "}" || currChar == "." || currChar == "," ||
 		currChar == ":" || currChar == ";" || currChar == "\'")
+		return true;
+	return false;
+}
+
+bool PDA::isKeyword(string currChar) {
+	if (currChar == "int" || currChar == "float" || currChar == "bool" ||
+		currChar == "if" || currChar == "else" || currChar == "then" ||
+		currChar == "for" || currChar == "while" || currChar == "whileend" ||
+		currChar == "do" || currChar == "doend" || currChar == "and" ||
+		currChar == "or" || currChar == "function")
+		return true;
+	return false;
+}
+
+bool PDA::isDigit(string currChar) {
+	bool d = true;
+	int i = currChar.size() - 1;
+	int result = 0, multiplier = 1;
+	for (; i >= 0; i--) {
+		if (currChar[i] >= '0' && currChar[i] <= '9') {
+			result = result + currChar[i] * multiplier;
+			multiplier *= 10;
+		}
+		else {
+			d = false;
+			break;
+		}
+	}
+	return d;
+}
+
+bool PDA::isSpace(string currChar) {
+	if (currChar.size() == 1 && (currChar[0] == ' ' || currChar[0] == '	' || currChar[0] == '\n'))
 		return true;
 	return false;
 }

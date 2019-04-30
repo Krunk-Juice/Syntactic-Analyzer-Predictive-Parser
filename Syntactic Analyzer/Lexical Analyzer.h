@@ -192,7 +192,7 @@ string FSM::getTokenType(int lex) {
 }
 
 bool FSM::isSpace(char currChar) {
-	if (currChar == ' ' || currChar == '	')
+	if (currChar == ' ' || currChar == '	' || currChar == '\n')
 		return true;
 	return false;
 }
