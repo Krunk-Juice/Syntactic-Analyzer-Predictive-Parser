@@ -2,7 +2,6 @@ Token: IDENTIFIER     Lexeme: result
 <Statement> -> <Assign>
 <Assign> -> <Identifier> = <Expression>
 Token: OPERATOR       Lexeme: =
-Token: SEPARATOR      Lexeme: (
 <Expression> -> <Term> <Expression Prime>
 <Term> -> <Factor> <Term Prime>
 <Factor> -> ( <Expression> ) <Factor Prime>

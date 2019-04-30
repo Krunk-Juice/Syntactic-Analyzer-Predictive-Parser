@@ -19,16 +19,19 @@ protected:
 	*/
 
 vector<vector<string>> table = {
-
-	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"$" },
-	{ "S",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"\0" },
-	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"\0" },
-	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR" },
-	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";",		"\0" }
+			/*	1			2			3			4			5			6			7			8			9			10				11	*/
+	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"$" },
+	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR" },
+	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
+	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}",	"ERROR",	"ERROR",	"ERROR" },
+	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
+	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR" },
+	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"ERROR",	"ERROR",	"\0" },
+	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"ERROR",	"ERROR",	"\0" },
+	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR" },
+	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";",		"ERROR",		"ERROR",	"ERROR",	"\0" }
 
 	};
 };
@@ -41,7 +44,7 @@ private:
 	int _index = 0;
 	PredictiveTable P;
 	bool isTerminal(string);
-	void productionS(vector<Token>);
+	void productionS(vector<Token>, stack<string>&);
 	int getRow(string);
 	int getCol(pair<string, string>);
 	void productionPrint(string, string);
@@ -64,13 +67,14 @@ bool PDA::parser(string s, vector<Token> tokens) {
 	tokens.push_back(Token("END", "$"));
 
 	/* If use S -> id=E. Use stack_.push("E") & productionS(vector<Token>). */
-	stack_.push("E");
-	productionS(tokens);
+	//stack_.push("E");
+	//productionS(tokens);
 
 	/* If use S -> idA & A -> =E. Use stack_.push("S").*/
-	//stack_.push("S");
+	stack_.push("S");
 
 	while (!stack_.empty()) {
+
 		/* Top of Stack */
 		string t = stack_.top();
 
@@ -89,8 +93,11 @@ bool PDA::parser(string s, vector<Token> tokens) {
 			pcheck = false;
 		}
 
+		if (t == "S") {
+			productionS(tokens, stack_);
+		}
 		// Is the top of stack a terminal? Yes.
-		if (isTerminal(t)) {
+		else if (isTerminal(t)) {
 			if (t == c || (t == "id" && tokens[_index].getToken() == "IDENTIFIER")) {
 				//cout << "Processing: " << stack_.top() << endl;
 				//cout << "Lexeme: " << c << endl;
@@ -164,14 +171,15 @@ bool PDA::isTerminal(string c) {
 }
 
 /* Production Rule S */
-void PDA::productionS(vector<Token> tokens) {
+void PDA::productionS(vector<Token> tokens, stack<string>& sta) {
 	if (tokens[_index].getToken() == "$")
 		return;
+	// Is <Statement> -> <Assign> ?
 	else if (tokens[_index].getToken() == "IDENTIFIER" && tokens[_index + 1].getLexeme() == "=") {
-		cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
-			"Lexeme: " << tokens[_index].getLexeme() << endl;
-		outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
-			"Lexeme: " << tokens[_index].getLexeme() << endl;
+		//cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+		//	"Lexeme: " << tokens[_index].getLexeme() << endl;
+		//outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+		//	"Lexeme: " << tokens[_index].getLexeme() << endl;
 
 		productionPrint("S", "id=E");
 		_index++;
@@ -182,11 +190,22 @@ void PDA::productionS(vector<Token> tokens) {
 			"Lexeme: " << tokens[_index].getLexeme() << endl;
 
 		_index++;
-
+		// Pop "S"
+		sta.pop();
+		// Push "E"
+		sta.push("E");
 		return;
 	}
-	else
+	else if (tokens[_index].getLexeme() == "while") {
+		if (tokens[_index + 1].getLexeme() == "(") {
+			
+		}
+	}
+	else {
+		sta.pop();
+		sta.push("E");
 		return;
+	}
 }
 
 /* Get table row. */
