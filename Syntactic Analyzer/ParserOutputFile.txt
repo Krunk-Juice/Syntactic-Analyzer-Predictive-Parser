@@ -1,44 +1,13 @@
-Token: KEYWORD        Lexeme: while
-<Statement> -> <Loop>
-<Loop> -> <While> ( <Conditional> ) { <Statement> }
-Token: SEPARATOR      Lexeme: (
-Token: IDENTIFIER     Lexeme: a
-<Conditional> -> <Expression> <Conditional Prime>
-<Expression> -> <Term> <Expression Prime>
-<Term> -> <Factor> <Term Prime>
-<Factor> -> <Identifier> <Factor Prime>
-Token: OPERATOR       Lexeme: <
-<Factor Prime> -> <Epsilon>
-<Term Prime> -> <Epsilon>
-<Expression Prime> -> <Epsilon>
-<Conditional Prime> -> < <Expression>
-Token: IDENTIFIER     Lexeme: b
-<Expression> -> <Term> <Expression Prime>
-<Term> -> <Factor> <Term Prime>
-<Factor> -> <Identifier> <Factor Prime>
-Token: SEPARATOR      Lexeme: )
-<Factor Prime> -> <Epsilon>
-<Term Prime> -> <Epsilon>
-<Expression Prime> -> <Epsilon>
-Token: SEPARATOR      Lexeme: {
-Token: IDENTIFIER     Lexeme: a
+Token: IDENTIFIER     Lexeme: large
 <Statement> -> <Assign>
 <Assign> -> <Identifier> = <Expression>
 Token: OPERATOR       Lexeme: =
-Token: IDENTIFIER     Lexeme: a
+Token: IDENTIFIER     Lexeme: num1$
 <Expression> -> <Term> <Expression Prime>
-<Term> -> <Factor> <Term Prime>
-<Factor> -> <Identifier> <Factor Prime>
-Token: OPERATOR       Lexeme: +
-<Factor Prime> -> <Epsilon>
-<Term Prime> -> <Epsilon>
-<Expression Prime> -> + <Term> <Expression Prime>
-Token: IDENTIFIER     Lexeme: c
 <Term> -> <Factor> <Term Prime>
 <Factor> -> <Identifier> <Factor Prime>
 Token: SEPARATOR      Lexeme: ;
 <Factor Prime> -> <Delimiter>
-Token: SEPARATOR      Lexeme: }
+Token: END            Lexeme: $
 <Term Prime> -> <Epsilon>
 <Expression Prime> -> <Epsilon>
-Token: END            Lexeme: $

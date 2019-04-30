@@ -299,9 +299,9 @@ void PDA::productionPrint(string t, string s) {
 
 	if (s == "W") {
 		cout << "<Statement> -> <Loop>" << endl;
-		cout << "<Loop> -> <While> ( <Conditional> ) { <Statement> }" << endl;
+		cout << "<Loop> -> while ( <Conditional> ) { <Statement> }" << endl;
 		outfile << "<Statement> -> <Loop>" << endl;
-		outfile << "<Loop> -> <While> ( <Conditional> ) { <Statement> }" << endl;
+		outfile << "<Loop> -> while ( <Conditional> ) { <Statement> }" << endl;
 	}
 
 	if (s == "EP") {
