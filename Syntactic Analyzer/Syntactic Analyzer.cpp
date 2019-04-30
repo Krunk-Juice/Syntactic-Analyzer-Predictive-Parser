@@ -21,6 +21,7 @@ int main() {
 		return 0;
 	}
 
+	/* Read file contents line by line. */
 	//while (!infile.eof()) {
 	//	getline(infile, str);
 

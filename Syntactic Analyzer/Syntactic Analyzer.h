@@ -102,8 +102,8 @@ bool PDA::parser(string s, vector<Token> tokens) {
 		// Is the top of stack a terminal? Yes.
 		else if (isTerminal(t)) {
 			if (t == c || (t == "id" && tokens[_index].getToken() == "IDENTIFIER")) {
-				cout << "Processing: " << stack_.top() << endl;
-				cout << "Lexeme: " << c << endl;
+				//cout << "Processing: " << stack_.top() << endl;
+				//cout << "Lexeme: " << c << endl;
 				stack_.pop();
 				_index++;
 				pcheck = true;
@@ -128,9 +128,9 @@ bool PDA::parser(string s, vector<Token> tokens) {
 			/* Was an "ERROR" cell read? No. */
 			if (P.table[l][k] != "ERROR") {
 				stack_.pop();
-				cout << t << " -> " << P.table[l][k] << endl;
+				//cout << t << " -> " << P.table[l][k] << endl;
 
-				//productionPrint(t, P.table[l][k]);
+				productionPrint(t, P.table[l][k]);
 
 				/* Pushes strings in the table in reverse onto the stack. */
 				if (P.table[l][k] == "id")
@@ -214,11 +214,11 @@ void PDA::productionS(vector<Token> tokens, stack<string>& sta) {
 		sta.push("E");
 		return;
 	}
-	else if (tokens[_index].getLexeme() == "while") {
-		if (tokens[_index + 1].getLexeme() == "(") {
-			
-		}
-	}
+	//else if (tokens[_index].getLexeme() == "while") {
+	//	if (tokens[_index + 1].getLexeme() == "(") {
+	//		
+	//	}
+	//}
 	else {
 		sta.pop();
 		sta.push("E");
@@ -290,11 +290,33 @@ int PDA::getCol(pair<string, string> c) {
 
 /* Print production rules. */
 void PDA::productionPrint(string t, string s) {
-	if (t == "S" && s == "id=E") {
+	if (s == "A") {
 		cout << "<Statement> -> <Assign>" << endl;
 		cout << "<Assign> -> <Identifier> = <Expression>" << endl;
 		outfile << "<Statement> -> <Assign>" << endl;
 		outfile << "<Assign> -> <Identifier> = <Expression>" << endl;
+	}
+
+	if (s == "W") {
+		cout << "<Statement> -> <Loop>" << endl;
+		cout << "<Loop> -> <While> ( <Conditional> ) { <Statement> }" << endl;
+		outfile << "<Statement> -> <Loop>" << endl;
+		outfile << "<Loop> -> <While> ( <Conditional> ) { <Statement> }" << endl;
+	}
+
+	if (s == "EP") {
+		cout << "<Conditional> -> <Expression> <Conditional Prime>" << endl;
+		outfile << "<Conditional> -> <Expression> <Conditional Prime>" << endl;
+	}
+
+	if (s == "<E") {
+		cout << "<Conditional Prime> -> < <Expression>" << endl;
+		outfile << "<Conditional Prime> -> < <Expression>" << endl;
+	}
+
+	if (s == ">E") {
+		cout << "<Conditional Prime> -> > <Expression>" << endl;
+		outfile << "<Conditional Prime> -> > <Expression>" << endl;
 	}
 
 	else if (s == "TQ") {
