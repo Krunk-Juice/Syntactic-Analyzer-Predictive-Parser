@@ -9,7 +9,11 @@ class PredictiveTable {
 protected:
 
 	/* Production Rules:
-		S -> id=E
+		S -> A | W
+		A -> id=E
+		W -> while(C){S}
+		C -> EP
+		P -> <E | >E
 		E -> TQ
 		Q -> +TQ | -TQ | \0
 		T -> FR
