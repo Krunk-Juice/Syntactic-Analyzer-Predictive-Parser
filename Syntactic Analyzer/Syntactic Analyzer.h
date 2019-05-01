@@ -169,8 +169,9 @@ bool PDA::parser(string s, vector<Token> tokens) {
 			}
 			/* Was an "ERROR" cell read? Yes. */
 			else {
-				cout << "You read an ERROR cell." << endl;
-				_index++;
+				cout << "Program has hit an \"ERROR\" cell at production " << t << " & terminal " << P.table[0][k] <<  endl;
+				//_index++;
+				break;
 			}
 		}
 	}
