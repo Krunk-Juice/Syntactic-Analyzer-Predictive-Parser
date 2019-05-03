@@ -56,7 +56,7 @@ private:
 	bool inDec = false;
 	PredictiveTable P;
 	bool isTerminal(string);
-	void productionS(vector<Token>, stack<string>&);
+	//void productionS(vector<Token>, stack<string>&);
 	int getRow(string);
 	int getCol(pair<string, string>);
 	void productionPrint(string, string);
@@ -259,42 +259,42 @@ bool PDA::isTerminal(string c) {
 }
 
 /* Production Rule S */
-void PDA::productionS(vector<Token> tokens, stack<string>& sta) {
-	if (tokens[_index].getToken() == "$")
-		return;
-	// Is <Statement> -> <Assign> ?
-	else if (tokens[_index].getToken() == "IDENTIFIER" && tokens[_index + 1].getLexeme() == "=") {
-		//cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
-		//	"Lexeme: " << tokens[_index].getLexeme() << endl;
-		//outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
-		//	"Lexeme: " << tokens[_index].getLexeme() << endl;
-
-		productionPrint("S", "id=E");
-		_index++;
-
-		cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
-			"Lexeme: " << tokens[_index].getLexeme() << endl;
-		outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
-			"Lexeme: " << tokens[_index].getLexeme() << endl;
-
-		_index++;
-		// Pop "S"
-		sta.pop();
-		// Push "E"
-		sta.push("E");
-		return;
-	}
-	//else if (tokens[_index].getLexeme() == "while") {
-	//	if (tokens[_index + 1].getLexeme() == "(") {
-	//		
-	//	}
-	//}
-	else {
-		sta.pop();
-		sta.push("E");
-		return;
-	}
-}
+//void PDA::productionS(vector<Token> tokens, stack<string>& sta) {
+//	if (tokens[_index].getToken() == "$")
+//		return;
+//	// Is <Statement> -> <Assign> ?
+//	else if (tokens[_index].getToken() == "IDENTIFIER" && tokens[_index + 1].getLexeme() == "=") {
+//		//cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+//		//	"Lexeme: " << tokens[_index].getLexeme() << endl;
+//		//outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+//		//	"Lexeme: " << tokens[_index].getLexeme() << endl;
+//
+//		productionPrint("S", "id=E");
+//		_index++;
+//
+//		cout << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+//			"Lexeme: " << tokens[_index].getLexeme() << endl;
+//		outfile << "Token: " << left << setw(15) << tokens[_index].getToken() <<
+//			"Lexeme: " << tokens[_index].getLexeme() << endl;
+//
+//		_index++;
+//		// Pop "S"
+//		sta.pop();
+//		// Push "E"
+//		sta.push("E");
+//		return;
+//	}
+//	//else if (tokens[_index].getLexeme() == "while") {
+//	//	if (tokens[_index + 1].getLexeme() == "(") {
+//	//		
+//	//	}
+//	//}
+//	else {
+//		sta.pop();
+//		sta.push("E");
+//		return;
+//	}
+//}
 
 /* Get table row. */
 int PDA::getRow(string c) {
