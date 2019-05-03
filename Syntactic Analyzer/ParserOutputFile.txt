@@ -1,87 +1,105 @@
 Token: KEYWORD        Lexeme: int
 <Statement> -> <Declaration>
-<Declaration> -> int <Identifier> <Declaration Prime>
+<Declaration> -> int <Identifier> <Declaration Number>
 Token: IDENTIFIER     Lexeme: a
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Number> -> = <Number> <Declaration Number>
 Token: INTEGER        Lexeme: 6
 Token: SEPARATOR      Lexeme: ,
-<Declaration Prime> -> , <Identifier> <Declaration Prime>
+<Declaration Number> -> , <Identifier> <Declaration Number>
 Token: IDENTIFIER     Lexeme: b
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Number> -> = <Number> <Declaration Number>
 Token: INTEGER        Lexeme: 5
 Token: SEPARATOR      Lexeme: ,
-<Declaration Prime> -> , <Identifier> <Declaration Prime>
+<Declaration Number> -> , <Identifier> <Declaration Number>
 Token: IDENTIFIER     Lexeme: c
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Number> -> = <Number> <Declaration Number>
 Token: INTEGER        Lexeme: 4
 Token: SEPARATOR      Lexeme: ,
-<Declaration Prime> -> , <Identifier> <Declaration Prime>
+<Declaration Number> -> , <Identifier> <Declaration Number>
 Token: IDENTIFIER     Lexeme: d
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Number> -> = <Number> <Declaration Number>
 Token: INTEGER        Lexeme: 3
 Token: SEPARATOR      Lexeme: ,
-<Declaration Prime> -> , <Identifier> <Declaration Prime>
+<Declaration Number> -> , <Identifier> <Declaration Number>
 Token: IDENTIFIER     Lexeme: e
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Number> -> = <Number> <Declaration Number>
 Token: INTEGER        Lexeme: 2
 Token: SEPARATOR      Lexeme: ;
-Declaration Prime> -> <Delimiter> <Statement>
+Declaration Number> -> <Delimiter> <Statement>
 Token: KEYWORD        Lexeme: int
 <Statement> -> <Declaration>
-<Declaration> -> int <Identifier> <Declaration Prime>
+<Declaration> -> int <Identifier> <Declaration Number>
 Token: IDENTIFIER     Lexeme: f
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Number> -> = <Number> <Declaration Number>
 Token: INTEGER        Lexeme: 1
 Token: SEPARATOR      Lexeme: ;
-Declaration Prime> -> <Delimiter> <Statement>
+Declaration Number> -> <Delimiter> <Statement>
+Token: KEYWORD        Lexeme: int
+<Statement> -> <Declaration>
+<Declaration> -> int <Identifier> <Declaration Number>
+Token: IDENTIFIER     Lexeme: x
+Token: SEPARATOR      Lexeme: ;
+Declaration Number> -> <Delimiter> <Statement>
+Token: KEYWORD        Lexeme: int
+<Statement> -> <Declaration>
+<Declaration> -> int <Identifier> <Declaration Number>
+Token: IDENTIFIER     Lexeme: y
+Token: SEPARATOR      Lexeme: ,
+<Declaration Number> -> , <Identifier> <Declaration Number>
+Token: IDENTIFIER     Lexeme: z
+Token: SEPARATOR      Lexeme: ,
+<Declaration Number> -> , <Identifier> <Declaration Number>
+Token: IDENTIFIER     Lexeme: g
+Token: SEPARATOR      Lexeme: ;
+Declaration Number> -> <Delimiter> <Statement>
 Token: KEYWORD        Lexeme: bool
 <Statement> -> <Declaration>
-<Declaration> -> bool <Identifier> <Declaration Prime>
+<Declaration> -> bool <Identifier> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: checker
 Token: SEPARATOR      Lexeme: ,
-<Declaration Prime> -> , <Identifier> <Declaration Prime>
+<Declaration Boolean> -> , <Identifier> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: chacker
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Boolean> -> = <Number> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: true
 Token: SEPARATOR      Lexeme: ,
-<Declaration Prime> -> , <Identifier> <Declaration Prime>
+<Declaration Boolean> -> , <Identifier> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: chocker
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Boolean> -> = <Number> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: false
 Token: SEPARATOR      Lexeme: ;
-Declaration Prime> -> <Delimiter> <Statement>
+Declaration Boolean> -> <Delimiter> <Statement>
 Token: KEYWORD        Lexeme: bool
 <Statement> -> <Declaration>
-<Declaration> -> bool <Identifier> <Declaration Prime>
+<Declaration> -> bool <Identifier> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: chucker
 Token: OPERATOR       Lexeme: =
-<Declaration Prime> -> = <Number> <Declaration Prime>
+<Declaration Boolean> -> = <Number> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: false
 Token: SEPARATOR      Lexeme: ;
-Declaration Prime> -> <Delimiter> <Statement>
+Declaration Boolean> -> <Delimiter> <Statement>
 Token: KEYWORD        Lexeme: bool
 <Statement> -> <Declaration>
-<Declaration> -> bool <Identifier> <Declaration Prime>
+<Declaration> -> bool <Identifier> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: chuchu
 Token: SEPARATOR      Lexeme: ,
-<Declaration Prime> -> , <Identifier> <Declaration Prime>
+<Declaration Boolean> -> , <Identifier> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: choochoo
 Token: SEPARATOR      Lexeme: ;
-Declaration Prime> -> <Delimiter> <Statement>
+Declaration Boolean> -> <Delimiter> <Statement>
 Token: KEYWORD        Lexeme: bool
 <Statement> -> <Declaration>
-<Declaration> -> bool <Identifier> <Declaration Prime>
+<Declaration> -> bool <Identifier> <Declaration Boolean>
 Token: IDENTIFIER     Lexeme: cho
 Token: SEPARATOR      Lexeme: ;
-Declaration Prime> -> <Delimiter> <Statement>
+Declaration Boolean> -> <Delimiter> <Statement>
 Token: KEYWORD        Lexeme: if
 <Statement> -> <Selection>
 <Selection> -> if ( <Conditional> ) { <Statement> }
@@ -238,10 +256,10 @@ Token: SEPARATOR      Lexeme: ;
 <Factor Prime> -> <Delimiter> <Statement>
 Token: KEYWORD        Lexeme: int
 <Statement> -> <Declaration>
-<Declaration> -> int <Identifier> <Declaration Prime>
+<Declaration> -> int <Identifier> <Declaration Number>
 Token: IDENTIFIER     Lexeme: result
 Token: SEPARATOR      Lexeme: ;
-Declaration Prime> -> <Delimiter> <Statement>
+Declaration Number> -> <Delimiter> <Statement>
 Token: IDENTIFIER     Lexeme: result
 <Statement> -> <Assign>
 <Assign> -> <Identifier> = <Expression>

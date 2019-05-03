@@ -15,8 +15,9 @@ protected:
 		I -> if(C){S}S
 		C -> EP
 		P -> <E | >E
-		D -> intidJ | boolidJ
+		D -> intidJ | boolidK
 		J -> ,idJ | =numJ | ;S
+		K -> ,idK | =booleanK | ;S
 		E -> TQ
 		Q -> +TQ | -TQ | \0
 		T -> FR
@@ -26,22 +27,23 @@ protected:
 	*/
 
 vector<vector<string>> table = {
-			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15			16			17			18			19			20	*/
-	{ "ERROR",	"id",		"num",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"int",		"bool",		",",		"if"		"$" },
-	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"\0",		"D",		"D",		"ERROR",	"I",		"\0" },
-	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}S",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "I",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"if(C){S}S",	"ERROR" },
-	{ "C",		"EP",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "D",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"intidJ",	"boolidJ",	"ERROR",	"ERROR",	"ERROR" },
-	{ "J",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"=numJ",	"ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idJ",		"ERROR",	"ERROR" },
-	{ "E",		"TQ",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "T",		"FR",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "F",		"idZ",		"numZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Z",		"ERROR",	"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";S",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" }
+			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15			16			17			18			19			20			21	*/
+	{ "ERROR",	"id",		"num",		"boolean",	"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"int",		"bool",		",",		"if"		"$" },
+	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"\0",		"D",		"D",		"ERROR",	"I",		"\0" },
+	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}S",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "I",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"if(C){S}S","ERROR" },
+	{ "C",		"EP",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "D",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"intidJ",	"boolidK",	"ERROR",	"ERROR",	"ERROR" },
+	{ "J",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"=numJ",	"ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idJ",		"ERROR",	"ERROR" },
+	{ "K",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"=booleanK","ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idK",		"ERROR",	"ERROR" },
+	{ "E",		"TQ",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"ERROR",	"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "T",		"FR",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"ERROR",	"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "F",		"idZ",		"numZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Z",		"ERROR",	"ERROR",	"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";S",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" }
 
 	};
 };
@@ -145,8 +147,13 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				}
 			}
 			/* Handle numerical terminals. */
-			else if (t == "num" && (tokens[_index].getToken() == "REAL" || tokens[_index].getToken() == "INTEGER" || 
-				tokens[_index].getLexeme() == "true" || tokens[_index].getLexeme() == "false")) {
+			else if (t == "num" && (tokens[_index].getToken() == "REAL" || tokens[_index].getToken() == "INTEGER")) {
+				stack_.pop();
+				_index++;
+				pcheck = true;
+			}
+			/* Handle boolean terminals. */
+			else if (t == "boolean" && (tokens[_index].getLexeme() == "true" || tokens[_index].getLexeme() == "false")) {
 				stack_.pop();
 				_index++;
 				pcheck = true;
@@ -217,8 +224,8 @@ bool PDA::parser(string s, vector<Token> tokens) {
 					stack_.push("int");
 					inDec = true;
 				}
-				else if (P.table[l][k] == "boolidJ") {
-					stack_.push("J");
+				else if (P.table[l][k] == "boolidK") {
+					stack_.push("K");
 					stack_.push("id");
 					stack_.push("bool");
 					inDec = true;
@@ -231,6 +238,18 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				}
 				else if (P.table[l][k] == ",idJ") {
 					stack_.push("J");
+					stack_.push("id");
+					stack_.push(",");
+					inDec = true;
+				}
+				else if (P.table[l][k] == "=booleanK") {
+					stack_.push("K");
+					stack_.push("boolean");
+					stack_.push("=");
+					inDec = true;
+				}
+				else if (P.table[l][k] == ",idK") {
+					stack_.push("K");
 					stack_.push("id");
 					stack_.push(",");
 					inDec = true;
@@ -270,7 +289,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 
 /* Check if string is terminal. */
 bool PDA::isTerminal(string c) {
-	if (c == "id" || c == "num" || isSeparator(c) || isOperator(c) || isKeyword(c) || isSpace(c))
+	if (c == "id" || c == "num" || c == "boolean" || isSeparator(c) || isOperator(c) || isKeyword(c) || isSpace(c))
 		return true;
 	return false;
 }
@@ -331,62 +350,66 @@ int PDA::getRow(string c) {
 		return 7;
 	else if (c == "J")
 		return 8;
-	else if (c == "E")
+	else if (c == "K")
 		return 9;
-	else if (c == "Q")
+	else if (c == "E")
 		return 10;
-	else if (c == "T")
+	else if (c == "Q")
 		return 11;
-	else if (c == "R")
+	else if (c == "T")
 		return 12;
-	else if (c == "F")
+	else if (c == "R")
 		return 13;
-	else
+	else if (c == "F")
 		return 14;
+	else
+		return 15;
 }
 
 /* Get table column. */
 int PDA::getCol(pair<string, string> c) {
 	if (c.second == "IDENTIFIER")
 		return 1;
-	if (c.second == "REAL" || c.second == "INTEGER")
+	else if (c.second == "REAL" || c.second == "INTEGER")
 		return 2;
-	else if (c.first == "+")
+	else if (c.first == "true" || c.first == "false")
 		return 3;
-	else if (c.first == "-")
+	else if (c.first == "+")
 		return 4;
-	else if (c.first == "*")
+	else if (c.first == "-")
 		return 5;
-	else if (c.first == "/")
+	else if (c.first == "*")
 		return 6;
-	else if (c.first == "=")
+	else if (c.first == "/")
 		return 7;
-	else if (c.first == "(")
+	else if (c.first == "=")
 		return 8;
-	else if (c.first == ")")
+	else if (c.first == "(")
 		return 9;
-	else if (c.first == ";")
+	else if (c.first == ")")
 		return 10;
-	else if (c.first == "while")
+	else if (c.first == ";")
 		return 11;
-	else if (c.first == "<")
+	else if (c.first == "while")
 		return 12;
-	else if (c.first == ">")
+	else if (c.first == "<")
 		return 13;
-	else if (c.first == "{")
+	else if (c.first == ">")
 		return 14;
-	else if (c.first == "}")
+	else if (c.first == "{")
 		return 15;
-	else if (c.first == "int")
+	else if (c.first == "}")
 		return 16;
-	else if (c.first == "bool")
+	else if (c.first == "int")
 		return 17;
-	else if (c.first == ",")
+	else if (c.first == "bool")
 		return 18;
-	else if (c.first == "if")
+	else if (c.first == ",")
 		return 19;
-	else if (c.first == "$")
+	else if (c.first == "if")
 		return 20;
+	else if (c.first == "$")
+		return 21;
 	else
 		return -1;
 }
@@ -438,28 +461,43 @@ void PDA::productionPrint(string t, string s) {
 	}
 
 	else if (s == "intidJ") {
-		cout << "<Declaration> -> int <Identifier> <Declaration Prime>" << endl;
-		outfile << "<Declaration> -> int <Identifier> <Declaration Prime>" << endl;
+		cout << "<Declaration> -> int <Identifier> <Declaration Number>" << endl;
+		outfile << "<Declaration> -> int <Identifier> <Declaration Number>" << endl;
 	}
 
-	else if (s == "boolidJ") {
-		cout << "<Declaration> -> bool <Identifier> <Declaration Prime>" << endl;
-		outfile << "<Declaration> -> bool <Identifier> <Declaration Prime>" << endl;
+	else if (s == "boolidK") {
+		cout << "<Declaration> -> bool <Identifier> <Declaration Boolean>" << endl;
+		outfile << "<Declaration> -> bool <Identifier> <Declaration Boolean>" << endl;
 	}
 
 	else if (s == "=numJ") {
-		cout << "<Declaration Prime> -> = <Number> <Declaration Prime>" << endl;
-		outfile << "<Declaration Prime> -> = <Number> <Declaration Prime>" << endl;
+		cout << "<Declaration Number> -> = <Number> <Declaration Number>" << endl;
+		outfile << "<Declaration Number> -> = <Number> <Declaration Number>" << endl;
 	}
 
 	else if (s == ",idJ") {
-		cout << "<Declaration Prime> -> , <Identifier> <Declaration Prime>" << endl;
-		outfile << "<Declaration Prime> -> , <Identifier> <Declaration Prime>" << endl;
+		cout << "<Declaration Number> -> , <Identifier> <Declaration Number>" << endl;
+		outfile << "<Declaration Number> -> , <Identifier> <Declaration Number>" << endl;
 	}
 
 	else if (t == "J" && s == ";S") {
-		cout << "Declaration Prime> -> <Delimiter> <Statement>" << endl;
-		outfile << "Declaration Prime> -> <Delimiter> <Statement>" << endl;
+		cout << "Declaration Number> -> <Delimiter> <Statement>" << endl;
+		outfile << "Declaration Number> -> <Delimiter> <Statement>" << endl;
+	}
+
+	else if (s == "=booleanK") {
+		cout << "<Declaration Boolean> -> = <Number> <Declaration Boolean>" << endl;
+		outfile << "<Declaration Boolean> -> = <Number> <Declaration Boolean>" << endl;
+	}
+
+	else if (s == ",idK") {
+		cout << "<Declaration Boolean> -> , <Identifier> <Declaration Boolean>" << endl;
+		outfile << "<Declaration Boolean> -> , <Identifier> <Declaration Boolean>" << endl;
+	}
+
+	else if (t == "K" && s == ";S") {
+		cout << "Declaration Boolean> -> <Delimiter> <Statement>" << endl;
+		outfile << "Declaration Boolean> -> <Delimiter> <Statement>" << endl;
 	}
 
 	else if (s == "TQ") {

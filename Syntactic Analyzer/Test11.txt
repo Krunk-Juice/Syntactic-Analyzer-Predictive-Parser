@@ -1,5 +1,7 @@
 int a = 6, b = 5, c = 4, d = 3, e = 2;
 int f = 1;
+int x;
+int y, z, g;
 bool checker, chacker = true, chocker = false;
 bool chucker = false;
 bool chuchu, choochoo;
