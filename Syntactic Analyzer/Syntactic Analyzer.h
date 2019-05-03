@@ -9,9 +9,10 @@ class PredictiveTable {
 protected:
 
 	/* Production Rules:
-		S -> A | W | D | \0
+		S -> A | W | D | I | \0
 		A -> id=E
-		W -> while(C){S}
+		W -> while(C){S}S
+		I -> if(C){S}S
 		C -> EP
 		P -> <E | >E
 		D -> intidJ | boolidJ
@@ -25,21 +26,22 @@ protected:
 	*/
 
 vector<vector<string>> table = {
-			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15			16			17			18	*/
-	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"int",		"bool",		",",		"$" },
-	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"\0",		"D",		"D",		"ERROR",	"\0" },
-	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "D",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"intidJ",	"boolidJ",	"ERROR",	"ERROR" },
-	{ "J",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idJ",		"ERROR" },
-	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";S",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"\0" }
+			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15			16			17			18			19	*/
+	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"int",		"bool",		",",		"if"		"$" },
+	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"\0",		"D",		"D",		"ERROR",	"I",		"\0" },
+	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}S",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "I",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"if(C){S}S",	"ERROR" },
+	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "D",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"intidJ",	"boolidJ",	"ERROR",	"ERROR",	"ERROR" },
+	{ "J",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idJ",		"ERROR",	"ERROR" },
+	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";S",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" }
 
 	};
 };
@@ -177,13 +179,13 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				/* Pushes strings in the table in reverse onto the stack. */
 				if (P.table[l][k] == "id")
 					stack_.push("id");
-
 				else if (P.table[l][k] == "id=E") {
 					stack_.push("E");
 					stack_.push("=");
 					stack_.push("id");
 				}
-				else if (P.table[l][k] == "while(C){S}") {
+				else if (P.table[l][k] == "while(C){S}S") {
+					stack_.push("S");
 					stack_.push("}");
 					stack_.push("S");
 					stack_.push("{");
@@ -191,6 +193,16 @@ bool PDA::parser(string s, vector<Token> tokens) {
 					stack_.push("C");
 					stack_.push("(");
 					stack_.push("while");
+				}
+				else if (P.table[l][k] == "if(C){S}S") {
+					stack_.push("S");
+					stack_.push("}");
+					stack_.push("S");
+					stack_.push("{");
+					stack_.push(")");
+					stack_.push("C");
+					stack_.push("(");
+					stack_.push("if");
 				}
 				else if (P.table[l][k] == "intidJ") {
 					stack_.push("J");
@@ -292,26 +304,28 @@ int PDA::getRow(string c) {
 		return 2;
 	else if (c == "W")
 		return 3;
-	else if (c == "C")
+	else if (c == "I")
 		return 4;
-	else if (c == "P")
+	else if (c == "C")
 		return 5;
-	else if (c == "D")
+	else if (c == "P")
 		return 6;
-	else if (c == "J")
+	else if (c == "D")
 		return 7;
-	else if (c == "E")
+	else if (c == "J")
 		return 8;
-	else if (c == "Q")
+	else if (c == "E")
 		return 9;
-	else if (c == "T")
+	else if (c == "Q")
 		return 10;
-	else if (c == "R")
+	else if (c == "T")
 		return 11;
-	else if (c == "F")
+	else if (c == "R")
 		return 12;
-	else
+	else if (c == "F")
 		return 13;
+	else
+		return 14;
 }
 
 /* Get table column. */
@@ -350,8 +364,10 @@ int PDA::getCol(pair<string, string> c) {
 		return 16;
 	else if (c.first == ",")
 		return 17;
-	else if (c.first == "$")
+	else if (c.first == "if")
 		return 18;
+	else if (c.first == "$")
+		return 19;
 	else
 		return -1;
 }
@@ -370,6 +386,16 @@ void PDA::productionPrint(string t, string s) {
 		cout << "<Loop> -> while ( <Conditional> ) { <Statement> }" << endl;
 		outfile << "<Statement> -> <Loop>" << endl;
 		outfile << "<Loop> -> while ( <Conditional> ) { <Statement> }" << endl;
+	}
+
+	else if (s == "I") {
+		cout << "<Statement> -> <Selection>" << endl;
+		outfile << "<Statement> -> <Selection>" << endl;
+	}
+
+	else if (s == "if(C){S}S") {
+		cout << "<Selection> -> if ( <Conditional> ) { <Statement> }" << endl;
+		outfile << "<Selection> -> if ( <Conditional> ) { <Statement> }" << endl;
 	}
 
 	else if (s == "EP") {
