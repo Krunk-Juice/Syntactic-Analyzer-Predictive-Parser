@@ -1,1 +1,160 @@
+Token: KEYWORD        Lexeme: int
+<Statement> -> <Declaration>
+<Declaration> -> int <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: a
+Token: SEPARATOR      Lexeme: ,
+<Declaration Prime> -> , <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: b
+Token: SEPARATOR      Lexeme: ,
+<Declaration Prime> -> , <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: c
+Token: SEPARATOR      Lexeme: ,
+<Declaration Prime> -> , <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: d
+Token: SEPARATOR      Lexeme: ,
+<Declaration Prime> -> , <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: f
+Token: SEPARATOR      Lexeme: ;
+Declaration Prime> -> <Delimiter> <Statement>
+Token: KEYWORD        Lexeme: while
+<Statement> -> <Loop>
+<Loop> -> while ( <Conditional> ) { <Statement> }
 Token: SEPARATOR      Lexeme: (
+Token: IDENTIFIER     Lexeme: a
+<Conditional> -> <Expression> <Conditional Prime>
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: OPERATOR       Lexeme: <
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> <Epsilon>
+<Conditional Prime> -> < <Expression>
+Token: IDENTIFIER     Lexeme: b
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: SEPARATOR      Lexeme: )
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> <Epsilon>
+Token: SEPARATOR      Lexeme: {
+Token: KEYWORD        Lexeme: int
+<Statement> -> <Declaration>
+<Declaration> -> int <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: result
+Token: SEPARATOR      Lexeme: ,
+<Declaration Prime> -> , <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: sum
+Token: SEPARATOR      Lexeme: ,
+<Declaration Prime> -> , <Identifier> <Declaration Prime>
+Token: IDENTIFIER     Lexeme: difference
+Token: SEPARATOR      Lexeme: ;
+Declaration Prime> -> <Delimiter> <Statement>
+Token: IDENTIFIER     Lexeme: result
+<Statement> -> <Assign>
+<Assign> -> <Identifier> = <Expression>
+Token: OPERATOR       Lexeme: =
+Token: SEPARATOR      Lexeme: (
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> ( <Expression> ) <Factor Prime>
+Token: IDENTIFIER     Lexeme: a
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: OPERATOR       Lexeme: -
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> - <Term> <Expression Prime>
+Token: IDENTIFIER     Lexeme: b
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: SEPARATOR      Lexeme: )
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> <Epsilon>
+Token: OPERATOR       Lexeme: *
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> * <Factor> <Term Prime>
+Token: SEPARATOR      Lexeme: (
+<Factor> -> ( <Expression> ) <Factor Prime>
+Token: IDENTIFIER     Lexeme: c
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: OPERATOR       Lexeme: +
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> + <Term> <Expression Prime>
+Token: IDENTIFIER     Lexeme: d
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: SEPARATOR      Lexeme: )
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> <Epsilon>
+Token: OPERATOR       Lexeme: /
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> / <Factor> <Term Prime>
+Token: IDENTIFIER     Lexeme: f
+<Factor> -> <Identifier> <Factor Prime>
+Token: SEPARATOR      Lexeme: ;
+<Factor Prime> -> <Delimiter> <Statement>
+Token: IDENTIFIER     Lexeme: sum
+<Statement> -> <Assign>
+<Assign> -> <Identifier> = <Expression>
+Token: OPERATOR       Lexeme: =
+Token: IDENTIFIER     Lexeme: a
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: OPERATOR       Lexeme: +
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> + <Term> <Expression Prime>
+Token: IDENTIFIER     Lexeme: b
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: OPERATOR       Lexeme: +
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> + <Term> <Expression Prime>
+Token: IDENTIFIER     Lexeme: c
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: OPERATOR       Lexeme: +
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> + <Term> <Expression Prime>
+Token: IDENTIFIER     Lexeme: d
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: SEPARATOR      Lexeme: ;
+<Factor Prime> -> <Delimiter> <Statement>
+Token: IDENTIFIER     Lexeme: difference
+<Statement> -> <Assign>
+<Assign> -> <Identifier> = <Expression>
+Token: OPERATOR       Lexeme: =
+Token: IDENTIFIER     Lexeme: a
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: OPERATOR       Lexeme: -
+<Factor Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> - <Term> <Expression Prime>
+Token: IDENTIFIER     Lexeme: b
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Identifier> <Factor Prime>
+Token: SEPARATOR      Lexeme: ;
+<Factor Prime> -> <Delimiter> <Statement>
+Token: SEPARATOR      Lexeme: }
+<Statement> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> <Epsilon>
+<Term Prime> -> <Epsilon>
+<Expression Prime> -> <Epsilon>
+Token: END            Lexeme: $

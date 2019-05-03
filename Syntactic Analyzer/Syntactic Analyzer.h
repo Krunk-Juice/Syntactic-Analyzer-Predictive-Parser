@@ -9,33 +9,37 @@ class PredictiveTable {
 protected:
 
 	/* Production Rules:
-		S -> A | W
+		S -> A | W | D | \0
 		A -> id=E
 		W -> while(C){S}
 		C -> EP
 		P -> <E | >E
+		D -> intidJ | boolidJ
+		J -> ,idJ | ;S
 		E -> TQ
 		Q -> +TQ | -TQ | \0
 		T -> FR
 		R -> *FR | /FR | \0
 		F -> idZ | (E)Z
-		Z -> ; | \0
+		Z -> ;S | \0
 	*/
 
 vector<vector<string>> table = {
-			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15	*/
-	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"$" },
-	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR" },
-	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"\0" },
-	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"\0" },
-	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"\0" }
+			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15			16			17			18	*/
+	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"int",		"bool",		",",		"$" },
+	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"\0",		"D",		"D",		"ERROR",	"\0" },
+	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "D",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"intidJ",	"boolidJ",	"ERROR",	"ERROR" },
+	{ "J",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idJ",		"ERROR" },
+	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";S",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"\0" }
 
 	};
 };
@@ -44,8 +48,10 @@ class PDA {
 private:
 	ofstream outfile;
 	stack<string> stack_;
+	vector<string> vars;
 	string str;
 	int _index = 0;
+	bool inDec = false;
 	PredictiveTable P;
 	bool isTerminal(string);
 	void productionS(vector<Token>, stack<string>&);
@@ -57,6 +63,7 @@ private:
 	bool isKeyword(string currChar);
 	bool isDigit(string currChar);
 	bool isSpace(string currChar);
+	bool varDuplicate(string);
 public:
 	bool parser(string, vector<Token>);
 };
@@ -105,7 +112,38 @@ bool PDA::parser(string s, vector<Token> tokens) {
 		//}
 		// Is the top of stack a terminal? Yes.
 		else if (isTerminal(t)) {
-			if (t == c || (t == "id" && tokens[_index].getToken() == "IDENTIFIER")) {
+
+			/* Variables in Declaration Statement */
+			if ((t == "id" && tokens[_index].getToken() == "IDENTIFIER") && inDec) {
+				/* Is the variable a duplicate? No. */
+				if (!varDuplicate(c)) {
+					inDec = false;
+					stack_.pop();
+					_index++;
+					pcheck = true;
+				}
+				/* Is the variable a duplicate? Yes. */
+				else {
+					cout << "Variable '" << c << "' has already been declared." << endl;
+					break;
+				}
+			}
+			/* Variables NOT in Declaration Statement */
+			else if ((t == "id" && tokens[_index].getToken() == "IDENTIFIER") && !inDec) {
+				/* Has the variable been declared yet? Yes. */
+				if (varDuplicate(c)) {
+					stack_.pop();
+					_index++;
+					pcheck = true;
+				}
+				/* Has the variable been declared yet? No. */
+				else {
+					cout << "Variable '" << c << "' has not been declared yet." << endl;
+					break;
+				}
+			}
+			/* Handle remaining terminals. */
+			else if (t == c) {
 				//cout << "Processing: " << stack_.top() << endl;
 				//cout << "Lexeme: " << c << endl;
 				stack_.pop();
@@ -117,7 +155,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				break;
 			}
 		}
-		// Is the top of stack a terminal? No. Get production rule.
+		// Is the top of stack a terminal? No. Get corresponding production rule.
 		else {
 			int l = getRow(t);
 
@@ -139,10 +177,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				/* Pushes strings in the table in reverse onto the stack. */
 				if (P.table[l][k] == "id")
 					stack_.push("id");
-				//else if (P.table[l][k] == "idA") {
-				//	stack_.push("A");
-				//	stack_.push("id");
-				//}
+
 				else if (P.table[l][k] == "id=E") {
 					stack_.push("E");
 					stack_.push("=");
@@ -156,6 +191,24 @@ bool PDA::parser(string s, vector<Token> tokens) {
 					stack_.push("C");
 					stack_.push("(");
 					stack_.push("while");
+				}
+				else if (P.table[l][k] == "intidJ") {
+					stack_.push("J");
+					stack_.push("id");
+					stack_.push("int");
+					inDec = true;
+				}
+				else if (P.table[l][k] == "boolidJ") {
+					stack_.push("J");
+					stack_.push("id");
+					stack_.push("bool");
+					inDec = true;
+				}
+				else if (P.table[l][k] == ",idJ") {
+					stack_.push("J");
+					stack_.push("id");
+					stack_.push(",");
+					inDec = true;
 				}
 				else if (P.table[l][k] == "idZ") {
 					stack_.push("Z");
@@ -243,18 +296,22 @@ int PDA::getRow(string c) {
 		return 4;
 	else if (c == "P")
 		return 5;
-	else if (c == "E")
+	else if (c == "D")
 		return 6;
-	else if (c == "Q")
+	else if (c == "J")
 		return 7;
-	else if (c == "T")
+	else if (c == "E")
 		return 8;
-	else if (c == "R")
+	else if (c == "Q")
 		return 9;
-	else if (c == "F")
+	else if (c == "T")
 		return 10;
-	else
+	else if (c == "R")
 		return 11;
+	else if (c == "F")
+		return 12;
+	else
+		return 13;
 }
 
 /* Get table column. */
@@ -287,8 +344,14 @@ int PDA::getCol(pair<string, string> c) {
 		return 13;
 	else if (c.first == "}")
 		return 14;
-	else if (c.first == "$")
+	else if (c.first == "int")
 		return 15;
+	else if (c.first == "bool")
+		return 16;
+	else if (c.first == ",")
+		return 17;
+	else if (c.first == "$")
+		return 18;
 	else
 		return -1;
 }
@@ -302,26 +365,51 @@ void PDA::productionPrint(string t, string s) {
 		outfile << "<Assign> -> <Identifier> = <Expression>" << endl;
 	}
 
-	if (s == "W") {
+	else if (s == "W") {
 		cout << "<Statement> -> <Loop>" << endl;
 		cout << "<Loop> -> while ( <Conditional> ) { <Statement> }" << endl;
 		outfile << "<Statement> -> <Loop>" << endl;
 		outfile << "<Loop> -> while ( <Conditional> ) { <Statement> }" << endl;
 	}
 
-	if (s == "EP") {
+	else if (s == "EP") {
 		cout << "<Conditional> -> <Expression> <Conditional Prime>" << endl;
 		outfile << "<Conditional> -> <Expression> <Conditional Prime>" << endl;
 	}
 
-	if (s == "<E") {
+	else if (s == "<E") {
 		cout << "<Conditional Prime> -> < <Expression>" << endl;
 		outfile << "<Conditional Prime> -> < <Expression>" << endl;
 	}
 
-	if (s == ">E") {
+	else if (s == ">E") {
 		cout << "<Conditional Prime> -> > <Expression>" << endl;
 		outfile << "<Conditional Prime> -> > <Expression>" << endl;
+	}
+
+	else if (s == "D") {
+		cout << "<Statement> -> <Declaration>" << endl;
+		outfile << "<Statement> -> <Declaration>" << endl;
+	}
+
+	else if (s == "intidJ") {
+		cout << "<Declaration> -> int <Identifier> <Declaration Prime>" << endl;
+		outfile << "<Declaration> -> int <Identifier> <Declaration Prime>" << endl;
+	}
+
+	else if (s == "boolidJ") {
+		cout << "<Declaration> -> bool <Identifier> <Declaration Prime>" << endl;
+		outfile << "<Declaration> -> bool <Identifier> <Declaration Prime>" << endl;
+	}
+
+	else if (s == ",idJ") {
+		cout << "<Declaration Prime> -> , <Identifier> <Declaration Prime>" << endl;
+		outfile << "<Declaration Prime> -> , <Identifier> <Declaration Prime>" << endl;
+	}
+
+	else if (t == "J" && s == ";S") {
+		cout << "Declaration Prime> -> <Delimiter> <Statement>" << endl;
+		outfile << "Declaration Prime> -> <Delimiter> <Statement>" << endl;
 	}
 
 	else if (s == "TQ") {
@@ -384,14 +472,19 @@ void PDA::productionPrint(string t, string s) {
 		outfile << "<Factor> -> ( <Expression> ) <Factor Prime>" << endl;
 	}
 
-	else if (s == ";") {
-		cout << "<Factor Prime> -> <Delimiter>" << endl;
-		outfile << "<Factor Prime> -> <Delimiter>" << endl;
+	else if (t == "Z" && s == ";S") {
+		cout << "<Factor Prime> -> <Delimiter> <Statement>" << endl;
+		outfile << "<Factor Prime> -> <Delimiter> <Statement>" << endl;
 	}
 
 	else if (t == "Z" && s == "\0") {
 		cout << "<Factor Prime> -> <Epsilon>" << endl;
 		outfile << "<Factor Prime> -> <Epsilon>" << endl;
+	}
+
+	else if (t == "S" && s == "\0") {
+		cout << "<Statement> -> <Epsilon>" << endl;
+		outfile << "<Statement> -> <Epsilon>" << endl;
 	}
 
 	else {
@@ -446,4 +539,19 @@ bool PDA::isSpace(string currChar) {
 	if (currChar.size() == 1 && (currChar[0] == ' ' || currChar[0] == '	' || currChar[0] == '\n'))
 		return true;
 	return false;
+}
+
+bool PDA::varDuplicate(string s) {
+	if (vars.empty()) {
+		vars.push_back(s);
+		return false;
+	}
+	else {
+		for (int i = 0; i < vars.size(); i++) {
+			if (s == vars[i])
+				return true;
+		}
+		vars.push_back(s);
+		return false;
+	}
 }
