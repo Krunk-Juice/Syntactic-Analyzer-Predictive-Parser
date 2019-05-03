@@ -16,32 +16,32 @@ protected:
 		C -> EP
 		P -> <E | >E
 		D -> intidJ | boolidJ
-		J -> ,idJ | ;S
+		J -> ,idJ | =numJ | ;S
 		E -> TQ
 		Q -> +TQ | -TQ | \0
 		T -> FR
 		R -> *FR | /FR | \0
-		F -> idZ | (E)Z
+		F -> idZ | numZ | (E)Z
 		Z -> ;S | \0
 	*/
 
 vector<vector<string>> table = {
-			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15			16			17			18			19	*/
-	{ "ERROR",	"id",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"int",		"bool",		",",		"if"		"$" },
-	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"\0",		"D",		"D",		"ERROR",	"I",		"\0" },
-	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}S",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "I",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"if(C){S}S",	"ERROR" },
-	{ "C",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "D",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"intidJ",	"boolidJ",	"ERROR",	"ERROR",	"ERROR" },
-	{ "J",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idJ",		"ERROR",	"ERROR" },
-	{ "E",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Q",		"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "T",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
-	{ "R",		"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
-	{ "F",		"idZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
-	{ "Z",		"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";S",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" }
+			/*	1			2			3			4			5			6			7			8			9			10				11			12			13			14			15			16			17			18			19			20	*/
+	{ "ERROR",	"id",		"num",		"+",		"-",		"*",		"/",		"=",		"(",		")",		";",		"while",		"<",		">",		"{",		"}",		"int",		"bool",		",",		"if"		"$" },
+	{ "S",		"A",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"W",			"ERROR",	"ERROR",	"ERROR",	"\0",		"D",		"D",		"ERROR",	"I",		"\0" },
+	{ "A",		"id=E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "W",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"while(C){S}S",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "I",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"if(C){S}S",	"ERROR" },
+	{ "C",		"EP",		"EP",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"EP",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "P",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"<E",		">E",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "D",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"intidJ",	"boolidJ",	"ERROR",	"ERROR",	"ERROR" },
+	{ "J",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"=numJ",	"ERROR",	"ERROR",	";S",		"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	",idJ",		"ERROR",	"ERROR" },
+	{ "E",		"TQ",		"TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"TQ",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Q",		"ERROR",	"ERROR",	"+TQ",		"-TQ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "T",		"FR",		"FR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"FR",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR"},
+	{ "R",		"ERROR",	"ERROR",	"\0",		"\0",		"*FR",		"/FR",		"ERROR",	"ERROR",	"\0",		"ERROR",	"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" },
+	{ "F",		"idZ",		"numZ",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"(E)Z",		"ERROR",	"ERROR",	"ERROR",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR",	"ERROR" },
+	{ "Z",		"ERROR",	"ERROR",	"\0",		"\0",		"\0",		"\0",		"ERROR",	"ERROR",	"\0",		";S",		"ERROR",		"\0",		"\0",		"ERROR",	"\0",		"ERROR",	"ERROR",	"ERROR",	"ERROR",	"\0" }
 
 	};
 };
@@ -144,6 +144,13 @@ bool PDA::parser(string s, vector<Token> tokens) {
 					break;
 				}
 			}
+			/* Handle numerical terminals. */
+			else if (t == "num" && (tokens[_index].getToken() == "REAL" || tokens[_index].getToken() == "INTEGER" || 
+				tokens[_index].getLexeme() == "true" || tokens[_index].getLexeme() == "false")) {
+				stack_.pop();
+				_index++;
+				pcheck = true;
+			}
 			/* Handle remaining terminals. */
 			else if (t == c) {
 				//cout << "Processing: " << stack_.top() << endl;
@@ -216,6 +223,12 @@ bool PDA::parser(string s, vector<Token> tokens) {
 					stack_.push("bool");
 					inDec = true;
 				}
+				else if (P.table[l][k] == "=numJ") {
+					stack_.push("J");
+					stack_.push("num");
+					stack_.push("=");
+					inDec = true;
+				}
 				else if (P.table[l][k] == ",idJ") {
 					stack_.push("J");
 					stack_.push("id");
@@ -225,6 +238,10 @@ bool PDA::parser(string s, vector<Token> tokens) {
 				else if (P.table[l][k] == "idZ") {
 					stack_.push("Z");
 					stack_.push("id");
+				}
+				else if (P.table[l][k] == "numZ") {
+					stack_.push("Z");
+					stack_.push("num");
 				}
 				else {
 					for (int x = P.table[l][k].length() - 1; x >= 0; x--) {
@@ -253,7 +270,7 @@ bool PDA::parser(string s, vector<Token> tokens) {
 
 /* Check if string is terminal. */
 bool PDA::isTerminal(string c) {
-	if (c == "id" || isSeparator(c) || isOperator(c) || isKeyword(c) || isDigit(c) || isSpace(c))
+	if (c == "id" || c == "num" || isSeparator(c) || isOperator(c) || isKeyword(c) || isSpace(c))
 		return true;
 	return false;
 }
@@ -332,42 +349,44 @@ int PDA::getRow(string c) {
 int PDA::getCol(pair<string, string> c) {
 	if (c.second == "IDENTIFIER")
 		return 1;
-	else if (c.first == "+")
+	if (c.second == "REAL" || c.second == "INTEGER")
 		return 2;
-	else if (c.first == "-")
+	else if (c.first == "+")
 		return 3;
-	else if (c.first == "*")
+	else if (c.first == "-")
 		return 4;
-	else if (c.first == "/")
+	else if (c.first == "*")
 		return 5;
-	else if (c.first == "=")
+	else if (c.first == "/")
 		return 6;
-	else if (c.first == "(")
+	else if (c.first == "=")
 		return 7;
-	else if (c.first == ")")
+	else if (c.first == "(")
 		return 8;
-	else if (c.first == ";")
+	else if (c.first == ")")
 		return 9;
-	else if (c.first == "while")
+	else if (c.first == ";")
 		return 10;
-	else if (c.first == "<")
+	else if (c.first == "while")
 		return 11;
-	else if (c.first == ">")
+	else if (c.first == "<")
 		return 12;
-	else if (c.first == "{")
+	else if (c.first == ">")
 		return 13;
-	else if (c.first == "}")
+	else if (c.first == "{")
 		return 14;
-	else if (c.first == "int")
+	else if (c.first == "}")
 		return 15;
-	else if (c.first == "bool")
+	else if (c.first == "int")
 		return 16;
-	else if (c.first == ",")
+	else if (c.first == "bool")
 		return 17;
-	else if (c.first == "if")
+	else if (c.first == ",")
 		return 18;
-	else if (c.first == "$")
+	else if (c.first == "if")
 		return 19;
+	else if (c.first == "$")
+		return 20;
 	else
 		return -1;
 }
@@ -426,6 +445,11 @@ void PDA::productionPrint(string t, string s) {
 	else if (s == "boolidJ") {
 		cout << "<Declaration> -> bool <Identifier> <Declaration Prime>" << endl;
 		outfile << "<Declaration> -> bool <Identifier> <Declaration Prime>" << endl;
+	}
+
+	else if (s == "=numJ") {
+		cout << "<Declaration Prime> -> = <Number> <Declaration Prime>" << endl;
+		outfile << "<Declaration Prime> -> = <Number> <Declaration Prime>" << endl;
 	}
 
 	else if (s == ",idJ") {
@@ -492,6 +516,11 @@ void PDA::productionPrint(string t, string s) {
 		cout << "<Factor> -> <Identifier> <Factor Prime>" << endl;
 		outfile << "<Factor> -> <Identifier> <Factor Prime>" << endl;
 	}
+
+	else if (s == "numZ") {
+		cout << "<Factor> -> <Number> <Factor Prime>" << endl;
+		outfile << "<Factor> -> <Number> <Factor Prime>" << endl;
+	}	
 
 	else if (s == "(E)Z") {
 		cout << "<Factor> -> ( <Expression> ) <Factor Prime>" << endl;
