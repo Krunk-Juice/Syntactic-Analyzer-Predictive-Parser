@@ -119,6 +119,7 @@ vector<Token> FSM::lexer(string expression) {
 		prevState = currState;
 	}
 
+	// Handle end brackets, parethesis, semicolon, etc.
 	if (currState != SPACE && currToken != "" && currState != COMMENT) {
 		T.setLexeme(currToken);
 		T.setToken(getTokenType(currState));
